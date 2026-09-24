@@ -68,3 +68,6 @@ frontend/.vite/
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated SSG intermediate output
+frontend/.vite-ssg-temp/

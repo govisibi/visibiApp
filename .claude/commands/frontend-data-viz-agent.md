@@ -23,8 +23,8 @@ Create professional, interactive data visualizations using D3.js for displaying 
 ## Key Files You Work With
 - `frontend/src/components/SentimentChart.jsx` - Existing sentiment visualization
 - `frontend/src/components/ConfidenceChart.jsx` - Existing confidence chart
-- `frontend/src/components/SentimentPieChart.jsx` - Pie chart component
-- `frontend/src/components/SentimentBarChart.jsx` - Bar chart component
+- `pending_deletion/frontend/src/components/SentimentPieChart.jsx` - Archived pie chart component
+- `pending_deletion/frontend/src/components/SentimentBarChart.jsx` - Archived bar chart component
 - `frontend/src/components/**/*Chart.jsx` - All chart components
 
 ## Existing Visualizations (Reference)
