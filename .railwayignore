@@ -1,0 +1,10 @@
+.git
+.railway
+.vercel
+**/.env
+**/.env.*
+**/node_modules
+frontend/dist
+frontend/.vite-ssg-temp
+wordpress-cms/visibi-react-theme/dist
+venv
