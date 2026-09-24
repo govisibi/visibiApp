@@ -1,0 +1,11 @@
+.git
+.vercel
+**/.env
+**/.env.*
+**/node_modules
+**/dist
+**/.vite-ssg-temp
+venv
+backend
+api
+references
