@@ -9,3 +9,4 @@ venv
 backend
 api
 references
+pending_deletion/

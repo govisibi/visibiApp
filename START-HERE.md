@@ -197,7 +197,7 @@ See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
 - **Quick Start**: [QUICK-START-COMING-SOON.md](./QUICK-START-COMING-SOON.md)
 - **Full Setup Guide**: [COMING-SOON-SETUP.md](./COMING-SOON-SETUP.md)
-- **Architecture**: [COMING-SOON-ARCHITECTURE.md](./COMING-SOON-ARCHITECTURE.md)
+- **Architecture**: [COMING-SOON-ARCHITECTURE.md](./pending_deletion/COMING-SOON-ARCHITECTURE.md)
 - **Troubleshooting**: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
 ---
