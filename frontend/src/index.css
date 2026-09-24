@@ -70,3 +70,51 @@
     background-size: 10px 10px;
     background-attachment: fixed;
 }
+/* Keep WordPress-managed Contact Form 7 fields aligned with the React contact page. */
+.visibi-cf7 .wpcf7 form {
+  display: grid;
+  gap: 1.5rem;
+}
+.visibi-cf7 .wpcf7 form > p {
+  margin: 0;
+}
+.visibi-cf7 .wpcf7 label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #020617;
+  font-family: "Space Mono", monospace;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+.visibi-cf7 .wpcf7 input:not([type="hidden"]):not([type="submit"]),
+.visibi-cf7 .wpcf7 textarea,
+.visibi-cf7 .wpcf7 select {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  color: #0f172a;
+  font-family: "Space Mono", monospace;
+  font-size: 0.875rem;
+}
+.visibi-cf7 .wpcf7 textarea {
+  min-height: 9rem;
+}
+.visibi-cf7 .wpcf7 input[type="submit"] {
+  padding: 0.875rem 2rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #1d4ed8;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+.visibi-cf7 .wpcf7 input[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.visibi-cf7 .wpcf7 form[data-status="mail_sent"] .wpcf7-response-output {
+  border-color: #15803d;
+}

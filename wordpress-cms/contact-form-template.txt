@@ -1,0 +1,21 @@
+<label>Name *
+  [text* your-name autocomplete:name placeholder "Your name"]
+</label>
+
+<label>Company *
+  [text* your-company placeholder "Your company name"]
+</label>
+
+<label>Email *
+  [email* your-email autocomplete:email placeholder "your@email.com"]
+</label>
+
+<label>What are you interested in? *
+  [select* your-subject first_as_label "Choose a topic" "GEO" "SEO" "AI Agents" "Brand visibility" "Other"]
+</label>
+
+<label>Message *
+  [textarea* your-message placeholder "Tell us about your goals"]
+</label>
+
+[submit "Send Message"]
