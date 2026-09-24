@@ -1,0 +1,7 @@
+**/.env
+**/.env.*
+frontend/dist/
+frontend/.vite-ssg-temp/
+frontend/node_modules/
+wordpress-cms/
+venv/
