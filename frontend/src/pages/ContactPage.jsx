@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import Navigation from '@/components/Navigation'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { executeRecaptcha } from '@/utils/recaptcha'
+import { cmsContactForm } from '@/cms/client'
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
@@ -169,6 +170,8 @@ export default function ContactPage() {
                       We've received your message and will respond within 24 hours.
                     </p>
                   </div>
+                ) : cmsContactForm() ? (
+                  <div className="visibi-cf7" dangerouslySetInnerHTML={{ __html: cmsContactForm().html }} />
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>

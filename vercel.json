@@ -1,8 +1,8 @@
 {
-  "buildCommand": "ls -la frontend/dist/index.html && echo 'Pre-built files ready'",
+  "buildCommand": "npm --prefix frontend run build:csr",
   "outputDirectory": "frontend/dist",
   "framework": null,
-  "installCommand": "echo 'No installation needed'",
+  "installCommand": "npm --prefix frontend ci",
   "rewrites": [
     {
       "source": "/(.*)",

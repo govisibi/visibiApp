@@ -13,6 +13,8 @@ import AIAgentsPage from './pages/AIAgentsPage'
 import ChatGPTBrandDiscovery from './pages/insights/ChatGPTBrandDiscovery'
 import SmallBusinessAIVisibility from './pages/insights/SmallBusinessAIVisibility'
 import GEOPlaybook2026 from './pages/insights/GEOPlaybook2026'
+import WordPressArticle from './pages/insights/WordPressArticle'
+import WordPressPage from './pages/WordPressPage'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfUse from './pages/TermsOfUse'
 import ScrollToTop from './components/ScrollToTop'
@@ -35,11 +37,13 @@ function App() {
         <Route path="/insights/chatgpt-brand-discovery" element={<ChatGPTBrandDiscovery />} />
         <Route path="/insights/small-business-ai-visibility-guide" element={<SmallBusinessAIVisibility />} />
         <Route path="/insights/geo-playbook-2026" element={<GEOPlaybook2026 />} />
+        <Route path="/insights/:slug" element={<WordPressArticle />} />
         <Route path="/tool" element={<ToolPage />} />
         <Route path="/how-we-work" element={<HowWeWorkPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
+        <Route path="*" element={<WordPressPage />} />
       </Routes>
     </Router>
   )

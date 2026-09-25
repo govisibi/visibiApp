@@ -71,3 +71,8 @@ Thumbs.db
 
 # Generated SSG intermediate output
 frontend/.vite-ssg-temp/
+
+# Local build and deployment state
+wordpress-cms/visibi-react-theme/dist/
+.vercel/
+.railway/
