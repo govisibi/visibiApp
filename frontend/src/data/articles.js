@@ -1,4 +1,5 @@
 import { Brain, Search, TrendingUp, Target, BookOpen } from 'lucide-react'
+import { cmsPosts } from '@/cms/client'
 
 /**
  * Central repository for all blog articles
@@ -155,7 +156,20 @@ export const articles = [
  * Get all published articles sorted by date (newest first)
  */
 export const getPublishedArticles = () => {
-  return articles
+  const wordpressArticles = cmsPosts().filter(post => post.slug && post.status === 'publish').map(post => ({
+    id: post.slug,
+    title: decodeHtml(post.title?.rendered || ''),
+    category: post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Insights',
+    icon: BookOpen,
+    date: post.date,
+    displayDate: new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    excerpt: decodeHtml((post.excerpt?.rendered || '').replace(/<[^>]*>/g, '')).trim(),
+    description: decodeHtml((post.excerpt?.rendered || '').replace(/<[^>]*>/g, '')).trim(),
+    readTime: Math.max(1, Math.ceil((post.content?.rendered || '').replace(/<[^>]*>/g, '').split(/\s+/).length / 220)) + ' min read',
+    slug: '/insights/' + post.slug,
+    published: true,
+  }))
+  return [...wordpressArticles, ...articles.filter(article => !wordpressArticles.some(post => post.slug === article.slug))]
     .filter(article => article.published)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
 }
@@ -179,7 +193,7 @@ export const getArticlesByCategory = (category) => {
  * Get single article by ID
  */
 export const getArticleById = (id) => {
-  return articles.find(article => article.id === id)
+  return getPublishedArticles().find(article => article.id === id)
 }
 
 /**
@@ -187,6 +201,13 @@ export const getArticleById = (id) => {
  */
 export const getCategories = () => {
   const categories = ['All']
-  const uniqueCategories = [...new Set(articles.map(article => article.category))]
+  const uniqueCategories = [...new Set(getPublishedArticles().map(article => article.category))]
   return [...categories, ...uniqueCategories.sort()]
+}
+
+function decodeHtml(value) {
+  if (typeof document === 'undefined') return value
+  const element = document.createElement('textarea')
+  element.innerHTML = value
+  return element.value
 }

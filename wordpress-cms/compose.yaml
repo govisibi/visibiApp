@@ -1,0 +1,63 @@
+name: visibi-cms
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: visibi
+      MARIADB_USER: visibi
+      MARIADB_PASSWORD: ${WP_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${WP_DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8082:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: visibi
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_DB_NAME: visibi
+      VISIBI_FRONTEND_URL: http://localhost:5174
+    volumes:
+      - wp_data:/var/www/html
+      - ./visibi-content:/var/www/html/wp-content/plugins/visibi-content
+      - ./visibi-react-theme:/var/www/html/wp-content/themes/visibi-react
+
+  cli:
+    image: wordpress:cli
+    user: "33:33"
+    profiles: ["tools"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: visibi
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_DB_NAME: visibi
+      VISIBI_FRONTEND_URL: http://localhost:5174
+    volumes:
+      - wp_data:/var/www/html
+      - ./visibi-content:/var/www/html/wp-content/plugins/visibi-content
+      - ./visibi-react-theme:/var/www/html/wp-content/themes/visibi-react
+      - ./seed-pages.sh:/opt/visibi/seed-pages.sh:ro
+      - ./seed-contact-form.sh:/opt/visibi/seed-contact-form.sh:ro
+      - ./seed-articles.sh:/opt/visibi/seed-articles.sh:ro
+      - ./contact-form-template.txt:/opt/visibi/contact-form-template.txt:ro
+    entrypoint: ["wp"]
+
+volumes:
+  db_data:
+  wp_data:
