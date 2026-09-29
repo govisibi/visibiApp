@@ -52,6 +52,8 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
   cp /opt/visibi/root-config.php /var/www/html/wp-config.php
   cp /opt/visibi/root.htaccess /var/www/html/.htaccess
   cp /opt/visibi/root-robots.txt /var/www/html/robots.txt
+  # A child .htaccess replaces the parent rewrite rules and blocks /v2 redirects.
+  rm -f /var/www/html/v2/.htaccess
   rm -f /var/www/html/wp-content/mu-plugins/visibi-v2-robots.php
   chown -R www-data:www-data /var/www/html/wp-content/themes/visibi /var/www/html/wp-content/mu-plugins /var/www/html/wp-content/uploads
   chown www-data:www-data /var/www/html/wp-config.php /var/www/html/.htaccess /var/www/html/robots.txt
