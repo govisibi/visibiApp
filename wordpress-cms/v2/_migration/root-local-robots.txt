@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /v2/
+
+Sitemap: http://localhost:8082/sitemap_index.xml
