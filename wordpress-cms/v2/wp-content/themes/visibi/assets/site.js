@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const dots = [...banner.querySelectorAll('[data-announcement-dot]')];
     let current = 0;
     let paused = false;
+    let advanceTimer;
+    const queueNext = () => {
+      window.clearTimeout(advanceTimer);
+      if (reducedMotion || messages.length < 2 || banner.hidden) return;
+      advanceTimer = window.setTimeout(() => {
+        if (paused) { queueNext(); return; }
+        show(current + 1);
+      }, current === 0 ? 45000 : 4500);
+    };
     const show = index => {
       current = (index + messages.length) % messages.length;
       const message = messages[current];
@@ -51,12 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
       link.href = siteUrl(message[1]);
       banner.style.background = message[2];
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
+      queueNext();
     };
     dots.forEach(dot => dot.addEventListener('click', () => show(Number(dot.dataset.announcementDot))));
-    banner.querySelector('.visibi-announcement__close')?.addEventListener('click', () => { banner.hidden = true; });
+    banner.querySelector('.visibi-announcement__close')?.addEventListener('click', () => { banner.hidden = true; window.clearTimeout(advanceTimer); });
     banner.addEventListener('mouseenter', () => { paused = true; });
     banner.addEventListener('mouseleave', () => { paused = false; });
-    if (!reducedMotion && messages.length > 1) window.setInterval(() => { if (!paused && !banner.hidden) show(current + 1); }, 4500);
+    queueNext();
   }
 
   document.querySelectorAll('.visibi-content [style*="visibiMarquee"]').forEach(track => {

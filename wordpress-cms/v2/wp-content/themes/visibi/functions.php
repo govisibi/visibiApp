@@ -21,8 +21,18 @@ add_action( 'wp_enqueue_scripts', function () {
     if ( is_page( 'insights' ) ) {
         wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
-    if ( is_page( 'seo-services' ) ) {
-        wp_enqueue_script( 'visibi-service-controls', get_template_directory_uri() . '/assets/service-controls.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+    if ( is_page() ) {
+        $page_content = (string) get_post_field( 'post_content', get_queried_object_id() );
+        $service_data = json_decode( (string) file_get_contents( __DIR__ . '/assets/service-interactions-data.json' ), true );
+        if ( isset( $service_data[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
+            wp_enqueue_script( 'visibi-service-interactions', get_template_directory_uri() . '/assets/service-interactions.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+        }
+        if ( str_contains( $page_content, 'Simulate Black Friday spike' ) || str_contains( $page_content, 'STORE AUDIT' ) || ( str_contains( $page_content, 'How big?' ) && str_contains( $page_content, 'Dedicated dev' ) ) ) {
+            wp_enqueue_script( 'visibi-hero-demos', get_template_directory_uri() . '/assets/hero-demos.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+        }
+    }
+    if ( is_page( 'ai-agents' ) ) {
+        wp_enqueue_script( 'visibi-ai-agents', get_template_directory_uri() . '/assets/ai-agents.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
     if ( is_page( 'peak-traffic-readiness' ) ) {
         wp_enqueue_script( 'visibi-peak-calculator', get_template_directory_uri() . '/assets/peak-calculator.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );

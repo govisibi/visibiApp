@@ -12,6 +12,9 @@ COPY wordpress-cms/visibi-react-theme/ /opt/visibi/visibi-react-theme/
 COPY wordpress-cms/v2/ /opt/visibi/v2/
 COPY wordpress-cms/v2-config.php /opt/visibi/v2-config.php
 COPY wordpress-cms/v2-robots.php /opt/visibi/v2-robots.php
+COPY wordpress-cms/root-config.php /opt/visibi/root-config.php
+COPY wordpress-cms/root.htaccess /opt/visibi/root.htaccess
+COPY wordpress-cms/root-robots.txt /opt/visibi/root-robots.txt
 COPY --from=react-build /source/wordpress-cms/visibi-react-theme/dist/ /opt/visibi/visibi-react-theme/dist/
 COPY wordpress-cms/entrypoint.sh /usr/local/bin/visibi-entrypoint
 RUN chmod 755 /usr/local/bin/visibi-entrypoint

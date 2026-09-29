@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^_migration(/|$) - [F,L]
+RewriteRule ^v2/?$ / [R=301,L,NE]
+RewriteRule ^v2/(.*)$ /$1 [R=301,L,NE]
+RewriteRule ^seo/?$ /seo-services/ [R=301,L,NE]
+RewriteRule ^how-we-work/?$ /about/ [R=301,L,NE]
+RewriteRule ^tool/?$ /tools/ [R=301,L,NE]
+RewriteRule ^terms-of-use/?$ /terms/ [R=301,L,NE]
+RewriteRule ^privacy-policy-2/?$ /privacy/ [R=301,L,NE]
+RewriteRule ^2025/11/17/chatgpt-brand-discovery/?$ /insights/how-to-get-recommended-by-chatgpt/ [R=301,L,NE]
+RewriteRule ^2025/12/01/geo-playbook-2026/?$ /insights/what-is-geo/ [R=301,L,NE]
+RewriteRule ^2025/12/01/small-business-ai-visibility-guide/?$ /insights/how-to-measure-ai-visibility/ [R=301,L,NE]
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
