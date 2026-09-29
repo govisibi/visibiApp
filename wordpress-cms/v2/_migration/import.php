@@ -36,17 +36,6 @@ function visibi_import_markup( $html, $name ) {
     $root = $xpath->query( '//*[@id="visibi-import-root"]' )->item( 0 );
     if ( ! $root ) { return ''; }
 
-    if ( 'Sitemap' === $name ) {
-        $draft_links = array();
-        foreach ( $xpath->query( './/a[@href]', $root ) as $link ) {
-            if ( preg_match( '#/(careers|pay-invoice)/?$#', $link->getAttribute( 'href' ) ) ) { $draft_links[] = $link; }
-        }
-        foreach ( $draft_links as $link ) {
-            $remove = strtolower( $link->parentNode->nodeName ) === 'li' ? $link->parentNode : $link;
-            $remove->parentNode->removeChild( $remove );
-        }
-    }
-
     // Preserve the prototype's image positions as media slots editable in WordPress.
     $slots = array();
     foreach ( $xpath->query( './/image-slot', $root ) as $slot ) { $slots[] = $slot; }
@@ -113,7 +102,7 @@ foreach ( $items as $item ) {
     $post = array(
         'ID' => $existing ? $existing[0] : 0,
         'post_type' => $type,
-        'post_status' => in_array( $name, array( 'Pay Invoice', 'Careers' ), true ) ? 'draft' : 'publish',
+        'post_status' => 'publish',
         'post_name' => $item['slug'],
         'post_title' => 'Ecommerce Agency Homepage v2' === $name ? 'Ecommerce Development' : ( ! empty( $item['displayTitle'] ) ? $item['displayTitle'] : preg_replace( '/^Article - /', '', $name ) ),
         'post_excerpt' => $item['description'],

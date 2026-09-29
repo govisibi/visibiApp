@@ -1,6 +1,7 @@
 <?php
 /** VISIBI theme setup and preview safeguards. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+require_once __DIR__ . '/insights-list.php';
 
 add_action( 'after_setup_theme', function () {
     add_theme_support( 'title-tag' );
@@ -16,6 +17,12 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'visibi-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap', array(), null );
     wp_enqueue_style( 'visibi-style', get_stylesheet_uri(), array( 'visibi-fonts' ), wp_get_theme()->get( 'Version' ) );
     wp_enqueue_script( 'visibi-site', get_template_directory_uri() . '/assets/site.js', array(), wp_get_theme()->get( 'Version' ), true );
+    if ( is_page( 'insights' ) ) {
+        wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+    }
+    if ( is_page( 'seo-services' ) ) {
+        wp_enqueue_script( 'visibi-service-controls', get_template_directory_uri() . '/assets/service-controls.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+    }
     if ( is_front_page() ) {
         wp_enqueue_script( 'visibi-dodge', get_template_directory_uri() . '/assets/dodge-game.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
