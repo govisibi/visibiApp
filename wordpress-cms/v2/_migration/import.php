@@ -100,7 +100,8 @@ function visibi_import_markup( $html, $name ) {
 }
 
 // Posts use /insights/slug/ and regular pages retain their own root slugs.
-update_option( 'permalink_structure', '/insights/%postname%/' );
+global $wp_rewrite;
+$wp_rewrite->set_permalink_structure( '/insights/%postname%/' );
 update_option( 'blogname', 'VISIBI' );
 update_option( 'blogdescription', 'AI visibility, ecommerce, cloud and marketing' );
 $counts = array( 'page' => 0, 'post' => 0, 'failed' => 0 );
@@ -192,5 +193,5 @@ if ( isset( $ids['Ecommerce Agency Homepage v2'] ) ) {
         }
     }
 }
-flush_rewrite_rules();
+flush_rewrite_rules( false );
 echo wp_json_encode( $counts ) . "\n";
