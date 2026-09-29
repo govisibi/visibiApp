@@ -32,7 +32,8 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
      su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/seed-staging.php' &&
      su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/repair-permalinks.php' &&
      su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/publish-pages.php' &&
-     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/repair-footer.php'; then
+     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/repair-footer.php' &&
+     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/reset-preview-admin.php'; then
     rm -f /var/www/html/v2/.preview-unavailable
   else
     touch /var/www/html/v2/.preview-unavailable
