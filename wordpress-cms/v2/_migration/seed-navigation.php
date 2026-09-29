@@ -5,6 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 function visibi_seed_link( $menu_id, $entry, $ids, $parent = 0 ) {
     list( $label, $name ) = $entry;
     if ( ! isset( $ids[ $name ] ) ) { return 0; }
+    if ( ! empty( $entry[3] ) ) {
+        return wp_update_nav_menu_item( $menu_id, 0, array(
+            'menu-item-title' => $label,
+            'menu-item-url' => get_permalink( $ids[ $name ] ) . $entry[3],
+            'menu-item-type' => 'custom',
+            'menu-item-parent-id' => $parent,
+            'menu-item-status' => 'publish',
+        ) );
+    }
     return wp_update_nav_menu_item( $menu_id, 0, array(
         'menu-item-title' => $label,
         'menu-item-object-id' => $ids[ $name ],
@@ -109,7 +118,7 @@ $footer = array(
     'Hosting' => array( array( 'Web hosting', 'Web Hosting' ), array( 'WordPress hosting', 'WordPress Hosting' ), array( 'Magento hosting', 'Magento Hosting' ), array( 'AWS managed', 'AWS Managed Hosting' ), array( 'Black Friday readiness', 'Peak Traffic Readiness' ), array( 'Compare hosting →', 'Managed Hosting' ) ),
     'Security' => array( array( 'Security plans', 'Website Security' ), array( 'Malware removal', 'Malware Removal' ), array( 'WAF & DDoS', 'WAF and DDoS Protection' ), array( 'Magento hardening', 'Magento Security Hardening' ), array( 'Adobe Commerce patching', 'Adobe Commerce Cloud Patching' ), array( 'WordPress hardening', 'WordPress Security Hardening' ) ),
     'Consulting & Support' => array( array( 'Software consulting', 'Software Consulting' ), array( 'Ecommerce consulting', 'Ecommerce Consulting' ), array( 'Digital transformation', 'Digital Transformation' ), array( 'Website support', 'Website Support and Maintenance' ), array( 'Ecommerce support', 'Ecommerce Support' ), array( 'Application support', 'Application Support' ) ),
-    'Company' => array( array( 'About us', 'About' ), array( 'Success stories', 'Success Stories' ), array( 'Insights & guides', 'Insights' ), array( 'Book a meeting', 'About' ), array( 'Contact', 'Contact' ) ),
+    'Company' => array( array( 'About us', 'About' ), array( 'Our team', 'About', '', '#team' ), array( 'Success stories', 'Success Stories' ), array( 'Insights & guides', 'Insights' ), array( 'Book a meeting', 'About', '', '#meet' ), array( 'Careers', 'Careers' ), array( 'Contact', 'Contact' ), array( 'Pay an invoice', 'Pay Invoice' ) ),
 );
 $footer_id = visibi_seed_grouped_menu( 'VISIBI Footer 2026', $footer, $ids );
 set_theme_mod( 'nav_menu_locations', array( 'primary' => $primary_id, 'services' => $services_id, 'footer' => $footer_id ) );
