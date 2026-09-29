@@ -23,6 +23,9 @@ add_action( 'wp_enqueue_scripts', function () {
     if ( is_page( 'seo-services' ) ) {
         wp_enqueue_script( 'visibi-service-controls', get_template_directory_uri() . '/assets/service-controls.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
+    if ( is_page( 'peak-traffic-readiness' ) ) {
+        wp_enqueue_script( 'visibi-peak-calculator', get_template_directory_uri() . '/assets/peak-calculator.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+    }
     if ( is_front_page() ) {
         wp_enqueue_script( 'visibi-dodge', get_template_directory_uri() . '/assets/dodge-game.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
