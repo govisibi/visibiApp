@@ -29,7 +29,8 @@ chown -R www-data:www-data /var/www/html/v2 /var/www/html/wp-content/mu-plugins/
 if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
   rm -f /var/www/html/v2/.preview-unavailable
   if su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/install-staging.php' &&
-     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/seed-staging.php'; then
+     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/seed-staging.php' &&
+     su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/repair-permalinks.php'; then
     rm -f /var/www/html/v2/.preview-unavailable
   else
     touch /var/www/html/v2/.preview-unavailable
