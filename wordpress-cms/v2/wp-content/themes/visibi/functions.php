@@ -2,6 +2,7 @@
 /** VISIBI theme setup and preview safeguards. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 require_once __DIR__ . '/insights-list.php';
+require_once __DIR__ . '/forms-extra.php';
 
 add_action( 'after_setup_theme', function () {
     add_theme_support( 'title-tag' );
@@ -25,6 +26,9 @@ add_action( 'wp_enqueue_scripts', function () {
     }
     if ( is_page( 'peak-traffic-readiness' ) ) {
         wp_enqueue_script( 'visibi-peak-calculator', get_template_directory_uri() . '/assets/peak-calculator.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+    }
+    if ( is_page( 'about' ) || is_page( 'careers' ) ) {
+        wp_enqueue_script( 'visibi-form-choices', get_template_directory_uri() . '/assets/form-choices.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
     if ( is_front_page() ) {
         wp_enqueue_script( 'visibi-dodge', get_template_directory_uri() . '/assets/dodge-game.js', array(), wp_get_theme()->get( 'Version' ), true );
@@ -106,17 +110,19 @@ add_action( 'wp_head', function () {
 
 /** A simple, editable fallback form. Fluent Forms can replace this shortcode after configuration. */
 add_shortcode( 'visibi_lead_form', function ( $atts ) {
-    $atts = shortcode_atts( array( 'need' => 'Free AI visibility audit' ), $atts );
+    if ( is_page( 'careers' ) ) { return visibi_career_form(); }
+    if ( is_page( 'about' ) ) { return visibi_meeting_form(); }
+    $default_need = is_page( 'contact' ) ? 'Free AI visibility audit' : 'Enquiry about ' . get_the_title();
+    $atts = shortcode_atts( array( 'need' => $default_need ), $atts );
     $fluent_id = absint( get_option( 'visibi_fluent_form_id', 0 ) );
     if ( $fluent_id && shortcode_exists( 'fluentform' ) ) {
         return do_shortcode( '[fluentform id="' . $fluent_id . '"]' );
     }
     ob_start();
     $state = isset( $_GET['visibi_form'] ) ? sanitize_key( wp_unslash( $_GET['visibi_form'] ) ) : '';
-    if ( 'sent' === $state ) { echo '<p class="visibi-form__message" role="status">Thanks. Your enquiry has been received.</p>'; }
-    if ( 'error' === $state ) { echo '<p class="visibi-form__message" role="alert">Please check the required fields and try again.</p>'; }
     ?>
-    <form class="visibi-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+    <form id="visibi-enquiry" class="visibi-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+      <?php echo visibi_form_message( $state, 'enquiry' ); ?>
       <input type="hidden" name="action" value="visibi_lead">
       <input type="hidden" name="visibi_return" value="<?php echo esc_url( get_permalink() ); ?>">
       <?php wp_nonce_field( 'visibi_lead', 'visibi_nonce' ); ?>
@@ -124,7 +130,7 @@ add_shortcode( 'visibi_lead_form', function ( $atts ) {
       <label>Name <input name="visibi_name" autocomplete="name" required maxlength="120"></label>
       <label>Email <input type="email" name="visibi_email" autocomplete="email" required maxlength="190"></label>
       <label>Phone number <input type="tel" name="visibi_phone" autocomplete="tel" required maxlength="40"></label>
-      <label>Website URL <input type="url" name="visibi_url" inputmode="url" placeholder="https://example.com" maxlength="255"></label>
+      <label>Website URL <input type="text" name="visibi_url" inputmode="url" autocomplete="url" placeholder="example.com or https://example.com" maxlength="255"></label>
       <label>What do you need?
         <select name="visibi_need"><option><?php echo esc_html( $atts['need'] ); ?></option><option>AI agents</option><option>SEO &amp; PPC</option><option>Ecommerce build</option><option>Managed hosting</option><option>Other</option></select>
       </label>
@@ -161,23 +167,24 @@ function visibi_handle_lead() {
     $return = isset( $_POST['visibi_return'] ) ? esc_url_raw( wp_unslash( $_POST['visibi_return'] ) ) : home_url( '/contact/' );
     $return = wp_validate_redirect( $return, home_url( '/contact/' ) );
     $nonce = isset( $_POST['visibi_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_nonce'] ) ) : '';
-    if ( ! wp_verify_nonce( $nonce, 'visibi_lead' ) || ! empty( $_POST['visibi_website_confirm'] ) ) { wp_safe_redirect( add_query_arg( 'visibi_form', 'error', $return ) . '#form' ); exit; }
+    if ( ! wp_verify_nonce( $nonce, 'visibi_lead' ) || ! empty( $_POST['visibi_website_confirm'] ) ) { visibi_form_redirect( $return, 'error' ); }
     $name = isset( $_POST['visibi_name'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_name'] ) ) : '';
     $email = isset( $_POST['visibi_email'] ) ? sanitize_email( wp_unslash( $_POST['visibi_email'] ) ) : '';
     $phone = isset( $_POST['visibi_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_phone'] ) ) : '';
-    $url = isset( $_POST['visibi_url'] ) ? esc_url_raw( wp_unslash( $_POST['visibi_url'] ) ) : '';
+    $raw_url = isset( $_POST['visibi_url'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['visibi_url'] ) ) ) : '';
+    $url = visibi_normalize_website_url( $raw_url );
     $need = isset( $_POST['visibi_need'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_need'] ) ) : '';
     $message = isset( $_POST['visibi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['visibi_message'] ) ) : '';
-    if ( ! $name || ! is_email( $email ) || ! $phone || ( $url && ! wp_http_validate_url( $url ) ) ) { wp_safe_redirect( add_query_arg( 'visibi_form', 'error', $return ) . '#form' ); exit; }
+    if ( ! $name || ! is_email( $email ) || ! $phone || ( $raw_url && ! $url ) ) { visibi_form_redirect( $return, 'error' ); }
     $rate_key = 'visibi_lead_' . md5( (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
-    if ( (int) get_transient( $rate_key ) >= 5 ) { wp_safe_redirect( add_query_arg( 'visibi_form', 'error', $return ) . '#form' ); exit; }
+    if ( (int) get_transient( $rate_key ) >= 5 ) { visibi_form_redirect( $return, 'error' ); }
     set_transient( $rate_key, (int) get_transient( $rate_key ) + 1, HOUR_IN_SECONDS );
-    $body = "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nWebsite: {$url}\nNeed: {$need}\n\n{$message}";
+    $body = "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nWebsite: {$url}\nNeed: {$need}\nSource: {$return}\n\n{$message}";
     $lead_id = wp_insert_post( array( 'post_type' => 'visibi_lead', 'post_status' => 'private', 'post_title' => 'Enquiry from ' . $name, 'post_content' => $body ), true );
-    if ( is_wp_error( $lead_id ) ) { wp_safe_redirect( add_query_arg( 'visibi_form', 'error', $return ) . '#form' ); exit; }
+    if ( is_wp_error( $lead_id ) ) { visibi_form_redirect( $return, 'error' ); }
     $mail_sent = wp_mail( get_option( 'admin_email' ), 'New VISIBI enquiry', $body, array( 'Reply-To: ' . $email ) );
     update_post_meta( $lead_id, '_visibi_email_status', $mail_sent ? 'sent' : 'failed' );
-    wp_safe_redirect( add_query_arg( 'visibi_form', 'sent', $return ) . '#form' );
+    visibi_form_redirect( $return, $mail_sent ? 'sent' : 'stored' );
     exit;
 }
 add_action( 'admin_post_visibi_lead', 'visibi_handle_lead' );
@@ -185,5 +192,6 @@ add_action( 'admin_post_nopriv_visibi_lead', 'visibi_handle_lead' );
 
 /** The exported markup contains a form placeholder that WordPress expands at render time. */
 add_filter( 'the_content', function ( $content ) {
+    if ( ! str_contains( $content, '<div data-visibi-form="1"></div>' ) ) { return $content; }
     return str_replace( '<div data-visibi-form="1"></div>', do_shortcode( '[visibi_lead_form]' ), $content );
 }, 20 );
