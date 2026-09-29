@@ -16,4 +16,19 @@ for item in visibi-content visibi-react-theme; do
   chown -R www-data:www-data "$destination"
 done
 
+# Keep the preview under the same Apache site, with a separate WordPress database.
+mkdir -p /var/www/html/v2 /var/www/html/wp-content/mu-plugins
+cp -a /usr/src/wordpress/. /var/www/html/v2/
+cp -a /opt/visibi/v2/. /var/www/html/v2/
+cp /opt/visibi/v2-robots.php /var/www/html/wp-content/mu-plugins/visibi-v2-robots.php
+if [ -d /var/www/html/wp-content/plugins/wordpress-seo ]; then
+  cp -a /var/www/html/wp-content/plugins/wordpress-seo /var/www/html/v2/wp-content/plugins/
+fi
+cp /opt/visibi/v2-config.php /var/www/html/v2/wp-config.php
+chown -R www-data:www-data /var/www/html/v2 /var/www/html/wp-content/mu-plugins/visibi-v2-robots.php
+if [ -n "${VISIBI_V2_DB_HOST:-}" ]; then
+  su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/install-staging.php'
+  su -s /bin/sh www-data -c 'php /var/www/html/v2/_migration/seed-staging.php'
+fi
+
 exec docker-entrypoint.sh "$@"

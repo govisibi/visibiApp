@@ -9,6 +9,9 @@ RUN npm --prefix frontend run build:wordpress
 FROM wordpress:php8.3-apache
 COPY wordpress-cms/visibi-content/ /opt/visibi/visibi-content/
 COPY wordpress-cms/visibi-react-theme/ /opt/visibi/visibi-react-theme/
+COPY wordpress-cms/v2/ /opt/visibi/v2/
+COPY wordpress-cms/v2-config.php /opt/visibi/v2-config.php
+COPY wordpress-cms/v2-robots.php /opt/visibi/v2-robots.php
 COPY --from=react-build /source/wordpress-cms/visibi-react-theme/dist/ /opt/visibi/visibi-react-theme/dist/
 COPY wordpress-cms/entrypoint.sh /usr/local/bin/visibi-entrypoint
 RUN chmod 755 /usr/local/bin/visibi-entrypoint

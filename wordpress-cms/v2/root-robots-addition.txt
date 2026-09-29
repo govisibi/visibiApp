@@ -1,0 +1,3 @@
+# Merge into https://govisibi.ai/robots.txt while /v2/ is a preview.
+User-agent: *
+Disallow: /v2/

@@ -1,0 +1,8 @@
+# Runtime secrets and generated WordPress installation files.
+/wp-config.php
+/.visibi-smtp.php
+/wp-admin/
+/wp-includes/
+/wp-content/uploads/
+/wp-content/plugins/
+/.maintenance
