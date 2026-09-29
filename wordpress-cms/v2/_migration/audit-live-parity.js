@@ -4,6 +4,7 @@ const path = require('path');
 const items = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'content.json'), 'utf8'))
   .filter(item => !['Careers', 'Pay Invoice'].includes(item.name));
 const base = process.argv[2] || 'http://localhost:8082/v2';
+const rootLaunch = new URL(base).pathname === '/';
 const errors = [], warnings = [], internalLinks = new Map(), assets = new Set();
 const decode = s => s.replace(/&#(x[0-9a-f]+|\d+);/gi, (_, n) => String.fromCodePoint(n[0].toLowerCase() === 'x' ? parseInt(n.slice(1), 16) : Number(n)))
   .replace(/&(amp|quot|apos|lt|gt|nbsp);/gi, (_, n) => ({ amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', nbsp: ' ' })[n.toLowerCase()] || ' ');
@@ -20,10 +21,12 @@ async function worker() {
       const response = await fetch(url);
       if (response.status !== 200) { errors.push(item.name + ': HTTP ' + response.status); continue; }
       html = await response.text();
-      if (!response.headers.get('x-robots-tag')?.includes('noindex')) errors.push(item.name + ': noindex header missing');
+      if (rootLaunch && !String(item.robots || '').includes('noindex') && response.headers.get('x-robots-tag')?.includes('noindex')) errors.push(item.name + ': unexpected noindex header');
+      if (!rootLaunch && !response.headers.get('x-robots-tag')?.includes('noindex')) errors.push(item.name + ': noindex header missing');
     } catch (e) { errors.push(item.name + ': ' + e.message); continue; }
     const main = html.match(/<main\b[^>]*id="main-content"[^>]*>([\s\S]*?)<\/main>/i)?.[1] || '';
     if (!main) { errors.push(item.name + ': main landmark missing'); continue; }
+    if (rootLaunch && !String(item.robots || '').includes('noindex') && responseNoindex(html)) errors.push(item.name + ': unexpected noindex meta');
     const expected = headings(item.html), actual = headings(main);
     const eH1 = expected.filter(h => h.startsWith('1:')).length, aH1 = actual.filter(h => h.startsWith('1:')).length;
     if (eH1 !== 1 || aH1 !== 1) warnings.push(item.name + ': H1 count source=' + eH1 + ' live=' + aH1);
