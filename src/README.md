@@ -34,8 +34,12 @@ utilities are historical records or focused checks and are not served as pages.
 For the existing local preview, [`local-compose.yaml`](local-compose.yaml) runs
 Apache against the retained `visibi-cms_wp_data` volume and MariaDB network.
 The preview lives at `http://localhost:8082/v2/`; the domain-root path redirects
-there. This local install uses the separate `visibi_v2` database. The obsolete
-local root database and site files have been backed up and removed.
+there. This local install uses the separate `visibi_v2` database with the
+`v2_` table prefix. On 30 September 2026, its database, uploads, theme, and MU
+plugins were refreshed from the live site and production URLs were rewritten
+for the local preview. This is a snapshot; subsequent production edits do not
+automatically appear locally. The obsolete local root database and site files
+were backed up and removed.
 
 Before changing the live database or persistent volume, take a backup. Keep
 credentials in the project-specific private configuration directory, never Git.

@@ -22,7 +22,7 @@ $names = array(
 $content = $page->post_content;
 $asset_dir = is_dir( '/opt/visibi/theme/assets/team/' )
     ? '/opt/visibi/theme/assets/team/'
-    : '/opt/visibi/v2/wp-content/themes/visibi/assets/team/';
+    : dirname( __DIR__ ) . '/wp-content/themes/visibi/assets/team/';
 foreach ( $names as $index => $name ) {
     $slot = 'team-' . $index;
     $slot_pattern = '~<span class="visibi-media-slot" data-visibi-slot="' . preg_quote( $slot, '~' ) . '"[^>]*>[^<]*</span>~';

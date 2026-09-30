@@ -1,1 +1,1 @@
-wordpress-cms/v2/deploy/entrypoint.sh text eol=lf
+src/deploy/entrypoint.sh text eol=lf
