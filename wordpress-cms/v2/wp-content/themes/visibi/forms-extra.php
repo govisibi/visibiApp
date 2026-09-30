@@ -11,7 +11,12 @@ function visibi_normalize_website_url( $raw ) {
         $raw = 'https://' . $raw;
     }
     $url = esc_url_raw( $raw, array( 'http', 'https' ) );
-    return $url && wp_http_validate_url( $url ) ? $url : false;
+    $parts = $url ? wp_parse_url( $url ) : false;
+    if ( ! is_array( $parts ) || empty( $parts['host'] ) || ! in_array( strtolower( $parts['scheme'] ?? '' ), array( 'http', 'https' ), true ) || isset( $parts['user'] ) || isset( $parts['pass'] ) ) { return false; }
+    $host = strtolower( $parts['host'] );
+    $domain = ! filter_var( $host, FILTER_VALIDATE_IP ) && str_contains( $host, '.' ) && filter_var( $host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME );
+    $public_ip = filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE );
+    return $domain || $public_ip ? $url : false;
 }
 
 function visibi_form_message( $state, $kind = 'enquiry' ) {
@@ -24,6 +29,9 @@ function visibi_form_message( $state, $kind = 'enquiry' ) {
     }
     if ( 'error' === $state ) {
         return '<p class="visibi-form__message" role="alert">' . esc_html( 'Please check the required fields and try again.' ) . '</p>';
+    }
+    if ( 'rate' === $state ) {
+        return '<p class="visibi-form__message" role="alert">' . esc_html( 'This email has sent several requests recently. Please try again in an hour or email info@govisibi.ai.' ) . '</p>';
     }
     return '';
 }

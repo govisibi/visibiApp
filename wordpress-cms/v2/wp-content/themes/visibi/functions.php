@@ -136,7 +136,7 @@ add_shortcode( 'visibi_lead_form', function ( $atts ) {
       <input type="hidden" name="action" value="visibi_lead">
       <input type="hidden" name="visibi_return" value="<?php echo esc_url( get_permalink() ); ?>">
       <?php wp_nonce_field( 'visibi_lead', 'visibi_nonce' ); ?>
-      <label class="visibi-form__honeypot" aria-hidden="true">Leave this empty<input type="text" name="visibi_website_confirm" tabindex="-1" autocomplete="off"></label>
+      <label class="visibi-form__honeypot" aria-hidden="true">Leave this empty<input type="text" name="visibi_check_field" tabindex="-1" autocomplete="new-password"></label>
       <label>Name <input name="visibi_name" autocomplete="name" required maxlength="120"></label>
       <label>Email <input type="email" name="visibi_email" autocomplete="email" required maxlength="190"></label>
       <label>Phone number <input type="tel" name="visibi_phone" autocomplete="tel" required maxlength="40"></label>
@@ -177,7 +177,7 @@ function visibi_handle_lead() {
     $return = isset( $_POST['visibi_return'] ) ? esc_url_raw( wp_unslash( $_POST['visibi_return'] ) ) : home_url( '/contact/' );
     $return = wp_validate_redirect( $return, home_url( '/contact/' ) );
     $nonce = isset( $_POST['visibi_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_nonce'] ) ) : '';
-    if ( ! wp_verify_nonce( $nonce, 'visibi_lead' ) || ! empty( $_POST['visibi_website_confirm'] ) ) { visibi_form_redirect( $return, 'error' ); }
+    if ( ! wp_verify_nonce( $nonce, 'visibi_lead' ) || ! empty( $_POST['visibi_check_field'] ) ) { visibi_form_redirect( $return, 'error' ); }
     $name = isset( $_POST['visibi_name'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_name'] ) ) : '';
     $email = isset( $_POST['visibi_email'] ) ? sanitize_email( wp_unslash( $_POST['visibi_email'] ) ) : '';
     $phone = isset( $_POST['visibi_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_phone'] ) ) : '';
@@ -186,8 +186,8 @@ function visibi_handle_lead() {
     $need = isset( $_POST['visibi_need'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_need'] ) ) : '';
     $message = isset( $_POST['visibi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['visibi_message'] ) ) : '';
     if ( ! $name || ! is_email( $email ) || ! $phone || ( $raw_url && ! $url ) ) { visibi_form_redirect( $return, 'error' ); }
-    $rate_key = 'visibi_lead_' . md5( (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
-    if ( (int) get_transient( $rate_key ) >= 5 ) { visibi_form_redirect( $return, 'error' ); }
+    $rate_key = 'visibi_lead_' . md5( strtolower( $email ) . '|' . (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+    if ( (int) get_transient( $rate_key ) >= 5 ) { visibi_form_redirect( $return, 'rate' ); }
     set_transient( $rate_key, (int) get_transient( $rate_key ) + 1, HOUR_IN_SECONDS );
     $body = "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nWebsite: {$url}\nNeed: {$need}\nSource: {$return}\n\n{$message}";
     $lead_id = wp_insert_post( array( 'post_type' => 'visibi_lead', 'post_status' => 'private', 'post_title' => 'Enquiry from ' . $name, 'post_content' => $body ), true );
