@@ -58,6 +58,7 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
   chown -R www-data:www-data /var/www/html/wp-content/themes/visibi /var/www/html/wp-content/mu-plugins /var/www/html/wp-content/uploads
   chown www-data:www-data /var/www/html/wp-config.php /var/www/html/.htaccess /var/www/html/robots.txt
   su -s /bin/sh www-data -c 'php /opt/visibi/v2/_migration/promote-root.php'
+  su -s /bin/sh www-data -c 'php /opt/visibi/v2/_migration/import-team-photos.php'
 fi
 
 exec docker-entrypoint.sh "$@"

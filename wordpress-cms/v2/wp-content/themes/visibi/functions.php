@@ -42,6 +42,7 @@ add_action( 'wp_enqueue_scripts', function () {
     }
     if ( is_front_page() ) {
         wp_enqueue_script( 'visibi-dodge', get_template_directory_uri() . '/assets/dodge-game.js', array(), wp_get_theme()->get( 'Version' ), true );
+        wp_enqueue_script( 'visibi-home-logos', get_template_directory_uri() . '/assets/home-logos.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
     wp_add_inline_script( 'visibi-site', 'window.visibiSite=' . wp_json_encode( array( 'base' => home_url( '/' ), 'theme' => get_template_directory_uri() ) ) . ';', 'before' );
 } );
