@@ -16,5 +16,5 @@ Railway and local Docker use separate databases and file volumes. The local
 up its own database and uploads. Never sync local changes into production by
 accident.
 
-The site currently tells all crawlers to stay out via `Disallow: /` in
-`robots.txt`. Change that only on explicit request.
+The live site allows all crawlers in `robots.txt` and lists the Yoast XML
+sitemap. WordPress and Yoast provide page-level indexing directives.
