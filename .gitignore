@@ -1,78 +1,9 @@
-# Python
-venv/
-env/
-ENV/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg
-*.egg-info/
-backend/dist/
-build/
-.eggs/
-
-# Environment variables
 .env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Backup files
-*.backup
-*.bak
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.hypothesis/
-
-# Logs
-*.log
-logs/
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Redis
-dump.rdb
-
-# Frontend
+.env.*
+!.env.example
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-dist-ssr/
-*.local
-.vite/
-.cache/
-
-# Frontend build outputs (allow frontend/dist/ for SSG)
-# frontend/dist/ - COMMENTED OUT to allow GitHub Actions to commit pre-rendered pages
-frontend/build/
-frontend/.vite/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Generated SSG intermediate output
-frontend/.vite-ssg-temp/
-
-# Local build and deployment state
-wordpress-cms/visibi-react-theme/dist/
-.vercel/
-.railway/
+wordpress-cms/v2/wp-content/uploads/
+wordpress-cms/v2/wp-content/plugins/
+wordpress-cms/v2/wp-config.php
+wordpress-cms/v2/.visibi-smtp.php
+*.log
