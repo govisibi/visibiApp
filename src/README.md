@@ -23,7 +23,7 @@ content, credentials, and uploads are kept outside Git.
 Railway builds [`../Dockerfile`](../Dockerfile), which copies this theme and its
 MU plugins into the persistent WordPress volume. Runtime configuration, URL
 redirects, and crawler rules are in [`deploy`](deploy). The `robots.txt` rule
-currently disallows all crawlers, as requested. The site has a separate Railway
+allows all crawlers and lists the XML sitemap. The site has a separate Railway
 MySQL service; its data and uploads are not automatically synchronized to local
 Docker.
 

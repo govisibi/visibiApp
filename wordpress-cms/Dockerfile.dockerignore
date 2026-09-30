@@ -1,6 +1,0 @@
-.git
-**/.env
-**/.env.*
-**/node_modules
-src/wp-content/uploads
-src/wp-content/plugins
