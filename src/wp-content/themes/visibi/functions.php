@@ -1,5 +1,5 @@
 <?php
-/** VISIBI theme setup and preview safeguards. */
+/** VISIBI theme setup. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 require_once __DIR__ . '/insights-list.php';
 require_once __DIR__ . '/forms-extra.php';
@@ -75,25 +75,6 @@ function visibi_service_promo( $category ) {
     );
     return isset( $promos[ $category ] ) ? $promos[ $category ] : $promos['AI'];
 }
-
-/** The preview must not enter any search index. Keep this active while installed in /v2/. */
-function visibi_is_preview() {
-    return (bool) preg_match( '#/v2/?$#i', (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
-}
-add_filter( 'wp_robots', function ( $robots ) {
-    if ( visibi_is_preview() ) {
-        unset( $robots['index'], $robots['follow'] );
-        $robots['noindex'] = true;
-        $robots['nofollow'] = true;
-        $robots['noarchive'] = true;
-    }
-    return $robots;
-}, 100 );
-add_action( 'send_headers', function () {
-    if ( visibi_is_preview() && ! headers_sent() ) {
-        header( 'X-Robots-Tag: noindex, nofollow, noarchive', true );
-    }
-} );
 
 /** Metadata is editable in Rank Math; these tags are a fallback until that plugin is active. */
 function visibi_has_seo_plugin() {

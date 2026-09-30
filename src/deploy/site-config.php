@@ -18,18 +18,15 @@ define('DB_PASSWORD', govisibi_root_env('WORDPRESS_DB_PASSWORD'));
 define('DB_HOST', govisibi_root_env('WORDPRESS_DB_HOST'));
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');
-define('WP_HOME', 'https://govisibi.ai');
-define('WP_SITEURL', 'https://govisibi.ai');
+$site_url = rtrim(govisibi_root_env('VISIBI_SITE_URL', 'https://govisibi.ai'), '/');
+define('WP_HOME', $site_url);
+define('WP_SITEURL', $site_url);
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
     $_SERVER['HTTPS'] = 'on';
 }
 define('DISALLOW_FILE_EDIT', true);
 define('WP_DEBUG', false);
 $table_prefix = 'v2_';
-if ($table_prefix === govisibi_root_env('WORDPRESS_TABLE_PREFIX', 'wp_')) {
-    http_response_code(503);
-    exit('The promoted table prefix conflicts with legacy WordPress.');
-}
 $secret = govisibi_root_env('VISIBI_V2_AUTH_SECRET', DB_PASSWORD);
 foreach (array('AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT') as $name) {
     define($name, hash_hmac('sha256', $name, $secret));

@@ -2,7 +2,7 @@ FROM wordpress:php8.3-apache
 
 COPY src/wp-content/themes/visibi/ /opt/visibi/theme/
 COPY src/wp-content/mu-plugins/ /opt/visibi/mu-plugins/
-COPY src/_migration/import-team-photos.php /opt/visibi/import-team-photos.php
+COPY src/scripts/import-team-photos.php /opt/visibi/import-team-photos.php
 COPY src/deploy/site-config.php /opt/visibi/site-config.php
 COPY src/deploy/.htaccess /opt/visibi/site.htaccess
 COPY src/deploy/robots.txt /opt/visibi/robots.txt
