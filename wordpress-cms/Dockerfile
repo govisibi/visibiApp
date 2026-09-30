@@ -1,21 +1,12 @@
-FROM node:22-alpine AS react-build
-WORKDIR /source
-COPY frontend/package.json frontend/package-lock.json frontend/
-RUN npm --prefix frontend ci
-COPY frontend/ frontend/
-COPY wordpress-cms/visibi-react-theme/ wordpress-cms/visibi-react-theme/
-RUN npm --prefix frontend run build:wordpress
-
 FROM wordpress:php8.3-apache
-COPY wordpress-cms/visibi-content/ /opt/visibi/visibi-content/
-COPY wordpress-cms/visibi-react-theme/ /opt/visibi/visibi-react-theme/
-COPY wordpress-cms/v2/ /opt/visibi/v2/
-COPY wordpress-cms/v2-config.php /opt/visibi/v2-config.php
-COPY wordpress-cms/v2-robots.php /opt/visibi/v2-robots.php
+
+COPY wordpress-cms/v2/wp-content/themes/visibi/ /opt/visibi/theme/
+COPY wordpress-cms/v2/wp-content/mu-plugins/ /opt/visibi/mu-plugins/
+COPY wordpress-cms/v2/_migration/cleanup-legacy-root.php /opt/visibi/cleanup-legacy-root.php
+COPY wordpress-cms/v2/_migration/import-team-photos.php /opt/visibi/import-team-photos.php
 COPY wordpress-cms/root-config.php /opt/visibi/root-config.php
 COPY wordpress-cms/root.htaccess /opt/visibi/root.htaccess
 COPY wordpress-cms/root-robots.txt /opt/visibi/root-robots.txt
-COPY --from=react-build /source/wordpress-cms/visibi-react-theme/dist/ /opt/visibi/visibi-react-theme/dist/
 COPY wordpress-cms/entrypoint.sh /usr/local/bin/visibi-entrypoint
 RUN chmod 755 /usr/local/bin/visibi-entrypoint
 ENTRYPOINT ["/usr/local/bin/visibi-entrypoint"]
