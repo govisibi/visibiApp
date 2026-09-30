@@ -1,19 +1,16 @@
-# Reuses the existing local Docker volume and MariaDB network. The WordPress
-# installation itself lives only under /var/www/html/v2.
+# Runs the same application image at the local domain root using a separate database and volume.
 services:
   wordpress:
-    image: wordpress:php8.3-apache
+    build:
+      context: ..
+      dockerfile: Dockerfile
     restart: unless-stopped
-    entrypoint:
-      - /bin/sh
-      - -c
-      - a2enmod rewrite >/dev/null && exec apache2-foreground
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: visibi
       WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:?Set WP_DB_PASSWORD in the private local env file}
-      WORDPRESS_DB_NAME: visibi
-      WORDPRESS_TABLE_PREFIX: v2_
+      WORDPRESS_DB_NAME: visibi_v2
+      VISIBI_SITE_URL: http://localhost:8082
     ports:
       - "8082:80"
     volumes:
