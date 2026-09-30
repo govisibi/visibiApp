@@ -13,6 +13,7 @@ services:
       WORDPRESS_DB_USER: visibi
       WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:?Set WP_DB_PASSWORD in the private local env file}
       WORDPRESS_DB_NAME: visibi
+      WORDPRESS_TABLE_PREFIX: v2_
     ports:
       - "8082:80"
     volumes:
