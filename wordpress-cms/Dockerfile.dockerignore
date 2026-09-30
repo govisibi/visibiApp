@@ -1,12 +1,6 @@
 .git
-.vercel
 **/.env
 **/.env.*
 **/node_modules
-**/dist
-**/.vite-ssg-temp
-venv
-backend
-api
-references
-pending_deletion/
+wordpress-cms/v2/wp-content/uploads
+wordpress-cms/v2/wp-content/plugins

@@ -1,0 +1,29 @@
+# Reuses the existing local Docker volume and MariaDB network. The WordPress
+# installation itself lives only under /var/www/html/v2.
+services:
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - -c
+      - a2enmod rewrite >/dev/null && exec apache2-foreground
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: visibi
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:?Set WP_DB_PASSWORD in the private local env file}
+      WORDPRESS_DB_NAME: visibi
+    ports:
+      - "8082:80"
+    volumes:
+      - visibi-cms_wp_data:/var/www/html
+    networks:
+      - visibi-cms_default
+
+volumes:
+  visibi-cms_wp_data:
+    external: true
+
+networks:
+  visibi-cms_default:
+    external: true

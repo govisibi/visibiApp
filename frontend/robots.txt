@@ -1,3 +1,0 @@
-# robots.txt for https://govisibi.com (pre-launch)
-User-agent: *
-Disallow: /

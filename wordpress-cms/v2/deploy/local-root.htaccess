@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^$ /v2/ [R=302,L]
+</IfModule>
