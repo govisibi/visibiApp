@@ -119,19 +119,58 @@ $announcements = array(
 </div>
 
 <?php
-// Keep the Peak page's existing content breadcrumb until that page is migrated.
-if ( ! is_front_page() && ! is_404() && ! is_page( array( 'peak-traffic-readiness', 'black-friday-website-readiness' ) ) ) :
+if ( ! is_front_page() && ! is_404() ) :
     $breadcrumb_links = array( array( 'Home', home_url( '/' ) ) );
+    $page_id = get_queried_object_id();
     if ( is_singular( 'post' ) ) {
         $insights_page = get_page_by_path( 'insights' );
         $breadcrumb_links[] = array( 'Insights', $insights_page ? get_permalink( $insights_page ) : home_url( '/insights/' ) );
     } elseif ( is_page() ) {
-        foreach ( array_reverse( get_post_ancestors( get_queried_object_id() ) ) as $ancestor_id ) {
-            $breadcrumb_links[] = array( get_the_title( $ancestor_id ), get_permalink( $ancestor_id ) );
+        $ancestors = array_reverse( get_post_ancestors( $page_id ) );
+        if ( $ancestors ) {
+            foreach ( $ancestors as $ancestor_id ) {
+                $breadcrumb_links[] = array( get_the_title( $ancestor_id ), get_permalink( $ancestor_id ) );
+            }
+        } else {
+            $in_primary = false;
+            foreach ( $primary as $item ) {
+                if ( (int) $item->object_id === $page_id && 'page' === $item->object ) { $in_primary = true; break; }
+            }
+            $page_slug = get_post_field( 'post_name', $page_id );
+            if ( ! $in_primary ) {
+                if ( in_array( $page_slug, array( 'radar', 'guard' ), true ) ) {
+                    $tools_page = get_page_by_path( 'tools' );
+                    if ( $tools_page ) { $breadcrumb_links[] = array( 'Tools', get_permalink( $tools_page ) ); }
+                } elseif ( 'careers' === $page_slug ) {
+                    $about_page = get_page_by_path( 'about' );
+                    if ( $about_page ) { $breadcrumb_links[] = array( 'About', get_permalink( $about_page ) ); }
+                } else {
+                    $service_group = null;
+                    foreach ( $groups as $group ) {
+                        foreach ( $group['items'] as $item ) {
+                            if ( (int) $item->object_id === $page_id && 'page' === $item->object ) { $service_group = $group['title']; break 2; }
+                        }
+                    }
+                    if ( ! $service_group && in_array( $page_slug, array( 'ios-app-development', 'wordpress-development', 'vue-development', 'react-native-development', 'python-development', 'php-development', 'node-js-development', 'laravel-development', 'flutter-app-development', 'angular-development', 'android-app-development' ), true ) ) {
+                        $service_group = 'Development';
+                    }
+                    if ( $service_group ) {
+                        $breadcrumb_links[] = array( 'Services', '' );
+                        $category_pages = array( 'Marketing' => 'marketing-and-seo', 'Development' => 'development', 'Ecommerce' => 'ecommerce-development', 'Cloud' => 'cloud-consulting', 'Hosting' => 'managed-hosting', 'Security' => 'website-security', 'Support' => 'website-support-and-maintenance' );
+                        $landing_slug = isset( $category_pages[ $service_group ] ) ? $category_pages[ $service_group ] : '';
+                        $landing_page = $landing_slug ? get_page_by_path( $landing_slug ) : null;
+                        if ( $landing_page && (int) $landing_page->ID !== $page_id ) {
+                            $breadcrumb_links[] = array( $service_group, get_permalink( $landing_page ) );
+                        } elseif ( ! $landing_page ) {
+                            $breadcrumb_links[] = array( $service_group, '' );
+                        }
+                    }
+                }
+            }
         }
     }
     if ( is_singular() ) {
-        $breadcrumb_current = get_the_title( get_queried_object_id() );
+        $breadcrumb_current = get_the_title( $page_id );
     } elseif ( is_search() ) {
         $breadcrumb_current = 'Search results';
     } elseif ( is_category() || is_tag() || is_tax() ) {
@@ -143,7 +182,7 @@ if ( ! is_front_page() && ! is_404() && ! is_page( array( 'peak-traffic-readines
     }
 ?>
 <nav class="visibi-breadcrumb" aria-label="Breadcrumb"><ol>
-  <?php foreach ( $breadcrumb_links as $crumb ) : ?><li><a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a></li><?php endforeach; ?>
+  <?php foreach ( $breadcrumb_links as $crumb ) : ?><li><?php if ( $crumb[1] ) : ?><a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a><?php else : ?><?php echo esc_html( $crumb[0] ); ?><?php endif; ?></li><?php endforeach; ?>
   <li aria-current="page"><?php echo esc_html( $breadcrumb_current ); ?></li>
 </ol></nav>
 <?php endif; ?>
