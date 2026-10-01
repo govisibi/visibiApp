@@ -54,6 +54,8 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'visibi-style', get_stylesheet_uri(), array( 'visibi-fonts' ), filemtime( __DIR__ . '/style.css' ) );
     wp_enqueue_style( 'visibi-mobile-nav', get_template_directory_uri() . '/assets/mobile-nav.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/mobile-nav.css' ) );
     wp_enqueue_script( 'visibi-site', get_template_directory_uri() . '/assets/site.js', array(), filemtime( __DIR__ . '/assets/site.js' ), true );
+    wp_enqueue_script( 'visibi-analytics', get_template_directory_uri() . '/assets/analytics.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/analytics.js' ), true );
+    wp_enqueue_script( 'visibi-forms-ajax', get_template_directory_uri() . '/assets/forms-ajax.js', array( 'visibi-analytics' ), filemtime( __DIR__ . '/assets/forms-ajax.js' ), true );
     if ( is_page( 'insights' ) ) {
         wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
@@ -190,7 +192,7 @@ add_shortcode( 'visibi_lead_form', function ( $atts ) {
       <label class="visibi-form__honeypot" aria-hidden="true">Leave this empty<input type="text" name="visibi_check_field" tabindex="-1" autocomplete="new-password"></label>
       <label>Name <input name="visibi_name" autocomplete="name" required maxlength="120"></label>
       <label>Email <input type="email" name="visibi_email" autocomplete="email" required maxlength="190"></label>
-      <label>Phone number <input type="tel" name="visibi_phone" autocomplete="tel" required maxlength="40"></label>
+      <label>Phone number (optional) <input type="tel" name="visibi_phone" autocomplete="tel" maxlength="40"></label>
       <label>Website URL <input type="text" name="visibi_url" inputmode="url" autocomplete="url" placeholder="example.com or https://example.com" maxlength="255"></label>
       <label>What do you need?
         <select name="visibi_need"><option><?php echo esc_html( $atts['need'] ); ?></option><option>AI agents</option><option>SEO &amp; PPC</option><option>Ecommerce build</option><option>Managed hosting</option><option>Other</option></select>
@@ -237,7 +239,8 @@ function visibi_handle_lead() {
     $need = isset( $_POST['visibi_need'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_need'] ) ) : '';
     $message = isset( $_POST['visibi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['visibi_message'] ) ) : '';
     $peak_audit = ! empty( $_POST['visibi_peak_audit'] ) && '/peak-traffic-readiness/' === wp_parse_url( $return, PHP_URL_PATH );
-    if ( ! $name || ! is_email( $email ) || ( ! $phone && ! $peak_audit ) || ( $peak_audit && ! $raw_url ) || ( $raw_url && ! $url ) ) { visibi_form_redirect( $return, 'error' ); }
+    if ( $raw_url && ! $url ) { visibi_form_redirect( $return, 'error', 'visibi-enquiry', 'visibi_form', 'Enter a valid Website URL such as example.com or https://example.com.' ); }
+    if ( ! $name || ! is_email( $email ) || ( $peak_audit && ! $raw_url ) ) { visibi_form_redirect( $return, 'error' ); }
     if ( $peak_audit ) {
         $history = isset( $_POST['visibi_peak_history'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_peak_history'] ) ) : '';
         $platform = isset( $_POST['visibi_peak_platform'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_peak_platform'] ) ) : '';

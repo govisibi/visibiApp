@@ -20,7 +20,7 @@ function visibi_normalize_website_url( $raw ) {
 }
 
 function visibi_form_message( $state, $kind = 'enquiry' ) {
-    if ( 'sent' === $state ) {
+    if ( 'sent' === $state || 'already' === $state ) {
         $message = 'newsletter' === $kind ? 'Thanks. Your subscription has been saved.' : ( 'career' === $kind ? 'Thanks. Your application has been received.' : ( 'meeting' === $kind ? 'Thanks. Your meeting request has been received. We will confirm a time by email.' : ( 'payment' === $kind ? 'Thanks. Your invoice request has been received. We will email payment instructions after checking the invoice.' : 'Thanks. Your enquiry has been received.' ) ) );
         return '<p class="visibi-form__message" role="status">' . esc_html( $message ) . '</p>';
     }
@@ -36,7 +36,16 @@ function visibi_form_message( $state, $kind = 'enquiry' ) {
     return '';
 }
 
-function visibi_form_redirect( $return, $state, $anchor = 'visibi-enquiry', $query_name = 'visibi_form' ) {
+function visibi_form_redirect( $return, $state, $anchor = 'visibi-enquiry', $query_name = 'visibi_form', $detail = '' ) {
+    if ( '1' === ( $_SERVER['HTTP_X_VISIBI_AJAX'] ?? '' ) ) {
+        $action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
+        $kinds = array( 'visibi_career' => 'career', 'visibi_meeting' => 'meeting', 'visibi_newsletter' => 'newsletter', 'visibi_payment_request' => 'payment' );
+        $kind = $kinds[ $action ] ?? 'enquiry';
+        $message = $detail ?: wp_strip_all_tags( visibi_form_message( $state, $kind ) );
+        $data = array( 'state' => $state, 'message' => $message );
+        if ( in_array( $state, array( 'sent', 'stored', 'already' ), true ) ) { wp_send_json_success( $data ); }
+        wp_send_json_error( $data, 'rate' === $state ? 429 : 422 );
+    }
     $return = wp_validate_redirect( $return, home_url( '/contact/' ) );
     $return = explode( '#', $return, 2 )[0];
     wp_safe_redirect( add_query_arg( $query_name, $state, $return ) . '#' . $anchor );
@@ -230,7 +239,7 @@ function visibi_handle_newsletter() {
     $email = isset( $_POST['visibi_email'] ) ? strtolower( sanitize_email( wp_unslash( $_POST['visibi_email'] ) ) ) : '';
     if ( ! wp_verify_nonce( $nonce, 'visibi_newsletter' ) || ! empty( $_POST['visibi_website_confirm'] ) || ! is_email( $email ) ) { visibi_form_redirect( $return, 'error', 'visibi-newsletter', 'visibi_newsletter' ); }
     $existing = get_posts( array( 'post_type' => 'visibi_subscriber', 'post_status' => 'private', 'numberposts' => 1, 'meta_key' => '_visibi_subscriber_email', 'meta_value' => $email ) );
-    if ( $existing ) { visibi_form_redirect( $return, 'sent', 'visibi-newsletter', 'visibi_newsletter' ); }
+    if ( $existing ) { visibi_form_redirect( $return, 'already', 'visibi-newsletter', 'visibi_newsletter' ); }
     if ( visibi_form_rate_limited( 'newsletter' ) ) { visibi_form_redirect( $return, 'error', 'visibi-newsletter', 'visibi_newsletter' ); }
     $id = wp_insert_post( array( 'post_type' => 'visibi_subscriber', 'post_status' => 'private', 'post_title' => $email ), true );
     if ( is_wp_error( $id ) ) { visibi_form_redirect( $return, 'error', 'visibi-newsletter', 'visibi_newsletter' ); }
