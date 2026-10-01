@@ -1,0 +1,470 @@
+{
+  "about": {
+    "href": "Contact.dc.html",
+    "label": "Talk to us →",
+    "title": "Talk to an expert",
+    "sub": "We reply within 24 hours"
+  },
+  "adobe-commerce-cloud-patching": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "adobe-commerce-cloud": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free platform audit",
+    "sub": "Senior developer · Reply in 48 hours"
+  },
+  "adobe-commerce-on-prem": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free platform audit",
+    "sub": "Senior developer · Reply in 48 hours"
+  },
+  "ai-agents": {
+    "href": "#call",
+    "label": "Book session →",
+    "title": "Free agent opportunity mapping",
+    "sub": "45 minutes with an agent engineer"
+  },
+  "ai-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "android-app-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "angular-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "application-support": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "aws-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "aws-cost-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "aws-managed-hosting": {
+    "href": "#plans",
+    "label": "See plans →",
+    "title": "Cut your AWS bill",
+    "sub": "Free cost & performance review"
+  },
+  "azure-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "azure-cost-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "backend-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "Free back-end development quote",
+    "sub": "Fixed price in 48h · NDA available"
+  },
+  "careers": {
+    "href": "#roles",
+    "label": "Open roles →",
+    "title": "We’re hiring in 4 countries",
+    "sub": "USA · Germany · UAE · Canada"
+  },
+  "cloud-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "cloud-cost-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "content-and-digital-pr": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "conversion-rate-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "development": {
+    "href": "Contact.dc.html",
+    "label": "Free quote →",
+    "title": "Development — free quote",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "devops-and-iac": {
+    "href": "#assess",
+    "label": "Free assessment →",
+    "title": "Infrastructure as Code, done for you",
+    "sub": "Terraform · CI/CD · Docker"
+  },
+  "devops-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "digital-transformation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "ecommerce-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "ecommerce-support": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "email-and-sms-marketing": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "fleet-patching": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "flutter-app-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "geo": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free GEO audit",
+    "sub": "See how AI describes your brand"
+  },
+  "google-ads-management": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "google-cloud-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "google-cloud-cost-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "guard": {
+    "href": "https://guard.govisibi.ai/signup",
+    "label": "Free trial →",
+    "title": "VISIBI Guard — store health monitor",
+    "sub": "7-day free trial · From £49/mo"
+  },
+  "home": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free AI visibility audit",
+    "sub": "See how AI describes your brand"
+  },
+  "hyva-theme-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "insights": {
+    "href": "Contact.dc.html",
+    "label": "Free audit →",
+    "title": "Free AI visibility audit",
+    "sub": "See how AI describes your brand"
+  },
+  "ios-app-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "laravel-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "local-seo": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "magento-hosting": {
+    "href": "#plans",
+    "label": "See plans →",
+    "title": "Managed Magento on AWS",
+    "sub": "Free migration in 1–3 days"
+  },
+  "magento-open-source": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free platform audit",
+    "sub": "Senior developer · Reply in 48 hours"
+  },
+  "magento-security-hardening": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "malware-removal": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "managed-hosting": {
+    "href": "#quote",
+    "label": "Get quote →",
+    "title": "Free hosting quote & migration",
+    "sub": "Reply within 1 working day"
+  },
+  "marketing-and-seo": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free SEO & marketing audit",
+    "sub": "Report in 48 hours · No obligation"
+  },
+  "marketplace-management": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "microsoft-ads-management": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "mobile-app-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "Free mobile app quote",
+    "sub": "Fixed price in 48h · NDA available"
+  },
+  "node-js-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "oracle-cloud-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "oracle-cloud-cost-optimisation": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "paid-social-advertising": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "peak-traffic-readiness": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Will your site survive Black Friday?",
+    "sub": "Free peak-readiness audit · 24h reply"
+  },
+  "php-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "python-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "radar": {
+    "href": "https://radar.govisibi.ai/signup",
+    "label": "Free trial →",
+    "title": "VISIBI Radar — AI visibility tracker",
+    "sub": "7-day free trial · From £29/mo"
+  },
+  "react-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "react-native-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "seo-services": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "shopify-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "shopify-plus": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free platform audit",
+    "sub": "Senior developer · Reply in 48 hours"
+  },
+  "software-consulting": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "software-support": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "spam-and-bot-protection": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "success-stories": {
+    "href": "Contact.dc.html",
+    "label": "Free audit →",
+    "title": "Want results like these?",
+    "sub": "Senior specialist · Reply in 48h"
+  },
+  "tools": {
+    "href": "#tools",
+    "label": "Free trial →",
+    "title": "VISIBI Radar & Guard",
+    "sub": "7-day free trial · 50% launch offer"
+  },
+  "tracking-and-analytics-setup": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "vue-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "waf-and-ddos-protection": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "web-hosting": {
+    "href": "#plans",
+    "label": "See plans →",
+    "title": "Web hosting from £3.59/mo",
+    "sub": "Code EXTRA20 · 30-day money-back"
+  },
+  "website-security": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "website-support-and-maintenance": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "woocommerce": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "Free platform audit",
+    "sub": "Senior developer · Reply in 48 hours"
+  },
+  "wordpress-development": {
+    "href": "#quote",
+    "label": "Free quote →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Senior developers · Reply in 24h"
+  },
+  "wordpress-hosting": {
+    "href": "#plans",
+    "label": "See plans →",
+    "title": "Managed WordPress, below WP Engine",
+    "sub": "Free migration · Code EXTRA20"
+  },
+  "wordpress-security-hardening": {
+    "href": "#audit",
+    "label": "Free audit →",
+    "title": "{{ mobileTitle }}",
+    "sub": "Specialist review · Reply in 48h"
+  },
+  "ecommerce-development": {
+    "href": "#start",
+    "label": "Free audit →",
+    "title": "Free store audit & quote",
+    "sub": "Senior developer · Reply in 48 hours"
+  }
+}
