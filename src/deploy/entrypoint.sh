@@ -27,6 +27,7 @@ chown www-data:www-data /var/www/html/wp-config.php /var/www/html/.htaccess /var
 if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
   su -s /bin/sh www-data -c 'php /opt/visibi/import-team-photos.php'
   su -s /bin/sh www-data -c 'php /opt/visibi/import-site-media.php'
+  su -s /bin/sh www-data -c 'php /opt/visibi/import-success-stories-images.php'
   case "${VISIBI_SITE_URL:-https://govisibi.ai}" in
     https://govisibi.ai|https://govisibi.ai/)
       su -s /bin/sh www-data -c 'php /opt/visibi/import-peak-page.php'

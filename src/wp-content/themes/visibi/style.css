@@ -42,6 +42,7 @@ img,svg,video{max-width:100%;height:auto}
 .visibi-search{display:flex;flex-wrap:wrap;gap:10px;max-width:740px}.visibi-search input{flex:1 1 250px;min-width:0;border:1px solid var(--line);border-radius:12px;padding:14px 17px;font:inherit}
 .visibi-media-slot{display:flex;width:100%;height:100%;min-height:48px;align-items:center;justify-content:center;background:#eef2fa;color:#5a6680;border:1px dashed #b9c4dd;border-radius:inherit;font:500 12px 'JetBrains Mono',monospace;text-align:center;padding:6px}.visibi-content img.visibi-slot-image{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .visibi-media-slot.is-filled[data-visibi-slot^="radar-logo-"],.visibi-media-slot.is-filled[data-visibi-slot^="guard-logo-"]{background:#fff;border:0;padding:0}.visibi-content .visibi-media-slot.is-filled[data-visibi-slot^="radar-logo-"] img.visibi-slot-image,.visibi-content .visibi-media-slot.is-filled[data-visibi-slot^="guard-logo-"] img.visibi-slot-image{object-fit:contain;padding:8px 14px}
+.visibi-media-slot.is-filled[data-visibi-slot^="story-s"]{background:transparent;border:0;padding:0}
 .visibi-faq-answer[hidden]{display:none!important}
 [hidden]{display:none!important}
 @keyframes visibiMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
