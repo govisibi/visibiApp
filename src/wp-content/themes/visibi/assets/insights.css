@@ -1,0 +1,27 @@
+/* Insights listing cards and category chips. */
+.visibi-content section[data-screen-label="Hero"] button{white-space:nowrap;flex:none}
+.visibi-insights-featured,.visibi-insights-card{color:#0b1530;background:#fff;text-decoration:none}
+.visibi-insights-featured:hover,.visibi-insights-card:hover{color:#0b1530;border-color:#1d4ed8}
+.visibi-insights-featured{display:flex;flex-wrap:wrap;align-items:center;border:1px solid #e3e8f2;border-radius:24px;overflow:hidden}
+.visibi-insights-featured>.visibi-insights-media{flex:0 1 460px;max-width:100%}
+.visibi-insights-featured__body{flex:1 1 360px;min-width:0;padding:clamp(20px,2.5vw,28px) clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:10px;justify-content:center}
+.visibi-insights-eyebrow{display:flex;flex-wrap:wrap;gap:10px;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#5a6680}
+.visibi-insights-eyebrow__category{color:#1d4ed8}
+.visibi-insights-featured__title{margin:0;font-size:clamp(22px,2.6vw,28px);font-weight:800;letter-spacing:-.025em;line-height:1.15;text-wrap:balance}
+.visibi-insights-featured__excerpt{margin:0;color:#5a6680;font-size:15px;font-weight:300;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.visibi-insights-featured__more{color:#1d4ed8;font-size:15px;font-weight:600}
+.visibi-insights-card{border:1px solid #e3e8f2;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.visibi-insights-card[hidden]{display:none}
+.visibi-insights-card__body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:12px;flex:1;min-width:0}
+.visibi-insights-card__title{margin:0;font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.visibi-insights-card__excerpt{margin:0;color:#5a6680;font-size:15px;font-weight:300;line-height:1.6}
+.visibi-insights-card__more{margin-top:auto;color:#1d4ed8;font-size:14px;font-weight:600}
+.visibi-insights-media{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#eef2fa}
+.visibi-insights-media>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.visibi-insights-cover{background:linear-gradient(135deg,var(--visibi-cover-dark),#070e22)}
+.visibi-insights-cover::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:28px 28px}
+.visibi-insights-cover>img{opacity:0}
+.visibi-insights-cover__copy{position:absolute;left:20px;right:20px;bottom:18px;display:flex;flex-direction:column;gap:6px;z-index:1}
+.visibi-insights-cover__copy>span{color:var(--visibi-cover-accent);font:600 11px 'JetBrains Mono',monospace;letter-spacing:.1em}
+.visibi-insights-cover__copy>strong{color:#fff;font-size:17px;font-weight:800;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:920px){.visibi-insights-featured>.visibi-insights-media{flex:1 1 100%;width:100%}.visibi-insights-featured__body{flex:1 1 100%}}

@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       results.replaceChildren(...filtered.slice(0, 3).map(card => {
         const link = sampleResult.cloneNode(true);
         link.href = card.href;
-        link.textContent = card.querySelector('div:nth-child(2)')?.textContent || card.textContent;
+        link.textContent = card.querySelector('.visibi-insights-card__title')?.textContent || card.textContent;
         return link;
       }));
     }

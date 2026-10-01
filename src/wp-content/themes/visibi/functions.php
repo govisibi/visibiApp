@@ -7,6 +7,7 @@ require_once __DIR__ . '/forms-extra.php';
 add_action( 'after_setup_theme', function () {
     add_theme_support( 'title-tag' );
     add_theme_support( 'post-thumbnails' );
+    add_image_size( 'visibi-card', 1600, 900, true );
     add_theme_support( 'custom-logo', array( 'height' => 60, 'width' => 60, 'flex-height' => true, 'flex-width' => true ) );
     add_theme_support( 'editor-styles' );
     add_theme_support( 'responsive-embeds' );
@@ -57,7 +58,8 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_script( 'visibi-analytics', get_template_directory_uri() . '/assets/analytics.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/analytics.js' ), true );
     wp_enqueue_script( 'visibi-forms-ajax', get_template_directory_uri() . '/assets/forms-ajax.js', array( 'visibi-analytics' ), filemtime( __DIR__ . '/assets/forms-ajax.js' ), true );
     if ( is_page( 'insights' ) ) {
-        wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+        wp_enqueue_style( 'visibi-insights', get_template_directory_uri() . '/assets/insights.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/insights.css' ) );
+        wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/insights.js' ), true );
     }
     if ( is_page() ) {
         $page_content = (string) get_post_field( 'post_content', get_queried_object_id() );
