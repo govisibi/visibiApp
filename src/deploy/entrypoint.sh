@@ -31,6 +31,7 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
       su -s /bin/sh www-data -c 'php /opt/visibi/import-peak-page.php'
       su -s /bin/sh www-data -c 'php /opt/visibi/import-about-page.php'
       su -s /bin/sh www-data -c 'php /opt/visibi/sync-launch-wording.php'
+      su -s /bin/sh www-data -c 'php /opt/visibi/restore-exact-page-html.php'
       ;;
   esac
 fi
