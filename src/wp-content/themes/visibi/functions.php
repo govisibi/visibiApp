@@ -266,3 +266,9 @@ add_filter( 'the_content', function ( $content ) {
     if ( ! str_contains( $content, '<div data-visibi-form="1"></div>' ) ) { return $content; }
     return str_replace( '<div data-visibi-form="1"></div>', do_shortcode( '[visibi_lead_form]' ), $content );
 }, 20 );
+
+/* The imported Peak page has a static breadcrumb; the shared header supplies its navigation trail. */
+add_filter( 'the_content', function ( $content ) {
+    if ( ! is_page( 'peak-traffic-readiness' ) || ! is_main_query() || ! in_the_loop() ) { return $content; }
+    return preg_replace( '~<nav aria-label="Breadcrumb" class="visibi-peak-breadcrumb">.*?</nav>~s', '', $content, 1 );
+}, 99 );
