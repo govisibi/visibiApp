@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (amount) amount.textContent = money(price);
         if (note) note.textContent = (unit === '/mo' && !data.annual ? 'per month, rolling' : data.annual ? (annualBilling ? `per month, billed annually (${money(price * 12)}/yr)` : 'per month, billed monthly') : 'one-off, fixed price') + (applied ? ' · EXTRA20 applied' : '');
       });
-      if (promo) promo.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Launch sale — plus an extra 20% off with code EXTRA20';
+      if (promo) promo.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Limited-time offer — plus an extra 20% off with code EXTRA20';
       if (apply) apply.textContent = applied ? 'Remove' : 'Apply';
     };
     monthly?.addEventListener('click', () => { annualBilling = false; render(); });

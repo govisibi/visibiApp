@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let applied = false;
     const render = () => {
       priceNodes.forEach((span, index) => { span.textContent = '£' + Math.round(original[index] * (applied ? .8 : 1)).toLocaleString('en-GB'); });
-      if (banner) banner.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Launch offer — plus an extra 20% off with code EXTRA20';
+      if (banner) banner.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Limited-time offer — plus an extra 20% off with code EXTRA20';
       if (apply) apply.textContent = applied ? 'Remove' : 'Apply';
     };
     code?.addEventListener('input', () => { code.removeAttribute('aria-invalid'); feedback.textContent = ''; });

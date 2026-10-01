@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const priceElements = [...pricing.querySelectorAll('span')].filter(span =>
     !span.children.length && /^[£$][\d,]+$/.test(span.textContent.trim()) && span.parentElement?.style.fontSize === '38px');
   const prices = priceElements.map(span => Number(span.textContent.replace(/[^\d]/g, '')));
-  const promoText = [...pricing.querySelectorAll('span')].find(span => span.textContent.trim().startsWith('Launch sale'));
+  const promoText = [...pricing.querySelectorAll('span')].find(span => span.textContent.trim().startsWith('Limited-time offer'));
   const feedback = document.createElement('span');
   feedback.setAttribute('role', 'status');
   feedback.style.cssText = 'font-size:12px;color:#b91c1c;align-self:center';
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const note = element.parentElement?.parentElement?.nextElementSibling;
       if (note) note.textContent = annualBilling ? `per month, billed annually (${money(price * 12)}/yr)` : 'per month, billed monthly';
     });
-    if (promoText) promoText.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Launch sale — plus an extra 20% off with code EXTRA20';
+    if (promoText) promoText.textContent = applied ? 'EXTRA20 applied — 60% off your first term' : 'Limited-time offer — plus an extra 20% off with code EXTRA20';
     if (apply) apply.textContent = applied ? 'Remove' : 'Apply';
   };
   monthly?.addEventListener('click', () => { annualBilling = false; renderPricing(); });
