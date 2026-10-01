@@ -8,6 +8,7 @@ COPY src/content/peak-traffic-readiness.html /opt/visibi/peak-content.html
 COPY src/scripts/import-about-page.php /opt/visibi/import-about-page.php
 COPY src/content/about.html /opt/visibi/about-content.html
 COPY src/scripts/sync-launch-wording.php /opt/visibi/sync-launch-wording.php
+COPY src/scripts/restore-exact-page-html.php /opt/visibi/restore-exact-page-html.php
 COPY src/deploy/site-config.php /opt/visibi/site-config.php
 COPY src/deploy/.htaccess /opt/visibi/site.htaccess
 COPY src/deploy/robots.txt /opt/visibi/robots.txt
