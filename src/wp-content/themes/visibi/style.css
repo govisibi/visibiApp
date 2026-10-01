@@ -85,3 +85,30 @@ img,svg,video{max-width:100%;height:auto}
 .site-footer__main{padding-top:36px}
 #visibi-newsletter .visibi-form__message{order:3}
 #visibi-newsletter .visibi-form__message[role=alert]{color:#b42318}
+
+/* About meeting form follows the selectable booking layout in About.dc.html. */
+.visibi-meeting-form{width:100%;max-width:none;gap:16px}
+.visibi-meeting-form .visibi-meeting__step{min-width:0;margin:0;padding:0;border:0}
+.visibi-meeting-form .visibi-meeting__step legend{display:block;width:100%;margin:0 0 8px;padding:0;color:#5a6680;font-size:13px;font-weight:700}
+.visibi-meeting__choices{display:grid;gap:8px;min-width:0}
+.visibi-meeting__regions,.visibi-meeting__modes{grid-template-columns:repeat(3,minmax(0,1fr))}
+.visibi-meeting__days{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.visibi-meeting__slots{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.visibi-meeting-form label.visibi-meeting__choice{position:relative;display:block;min-width:0;font-size:13px;font-weight:700;cursor:pointer}
+.visibi-meeting__choice input[type=radio]{position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0}
+.visibi-meeting__choice span{display:flex;min-width:0;min-height:44px;align-items:center;justify-content:center;padding:10px 6px;border:1.5px solid #e3e8f2;border-radius:12px;background:#fff;color:#0b1530;text-align:center;line-height:1.2}
+.visibi-meeting__choice input:checked+span{border-color:#1d4ed8;background:#eef2fa}
+.visibi-meeting__choice input:focus-visible+span{outline:3px solid #6f98ff;outline-offset:2px}
+.visibi-meeting__choice input:disabled+span{opacity:.5;cursor:not-allowed}
+.visibi-meeting__days .visibi-meeting__choice span{min-height:56px;flex-direction:column;gap:2px;padding:8px 2px}
+.visibi-meeting__days .visibi-meeting__choice small{color:#5a6680;font-size:11px;font-weight:600}
+.visibi-meeting__days .visibi-meeting__choice strong{font-size:17px;font-weight:800}
+.visibi-meeting__slots .visibi-meeting__choice span{min-height:40px;padding:8px 4px;border-radius:10px}
+.visibi-meeting-form .visibi-meeting__field,.visibi-meeting-form .visibi-meeting__city{display:block;min-width:0}
+.visibi-meeting-form .visibi-meeting__city{margin-top:8px}
+.visibi-meeting-form .visibi-meeting__field input,.visibi-meeting-form .visibi-meeting__city input{width:100%;padding:13px 16px}
+.visibi-meeting-form .visibi-button{width:100%;min-height:50px;padding:16px}
+.visibi-meeting-form.is-complete{min-height:176px;align-content:center}
+.visibi-meeting-form.is-complete>.visibi-meeting__step,.visibi-meeting-form.is-complete>.visibi-meeting__field,.visibi-meeting-form.is-complete>.visibi-button{display:none}
+.visibi-meeting-form.is-complete .visibi-form__message{color:#0b1530;font-size:15px;line-height:1.6}
+.visibi-meeting-form.is-complete .visibi-form__message::before{content:"\2713";display:grid;width:52px;height:52px;margin-bottom:10px;place-items:center;border-radius:50%;background:#1d4ed8;color:#fff;font-size:22px}
