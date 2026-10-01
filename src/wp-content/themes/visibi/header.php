@@ -28,6 +28,16 @@ foreach ( $onpage as $link ) {
         break;
     }
 }
+$show_black_friday_menu = ! is_page( array( 'peak-traffic-readiness', 'black-friday-website-readiness' ) );
+$black_friday_now = new DateTimeImmutable( 'now', wp_timezone() );
+$black_friday_year = (int) $black_friday_now->format( 'Y' );
+if ( (int) $black_friday_now->format( 'n' ) === 12 && (int) $black_friday_now->format( 'j' ) > 27 ) { ++$black_friday_year; }
+$black_friday_november = new DateTimeImmutable( $black_friday_year . '-11-01', wp_timezone() );
+$black_friday_first_thursday = ( 4 - (int) $black_friday_november->format( 'w' ) + 7 ) % 7;
+$black_friday_date = $black_friday_november->modify( '+' . ( $black_friday_first_thursday + 22 ) . ' days' );
+$black_friday_days = max( 0, (int) ceil( ( $black_friday_date->getTimestamp() - $black_friday_now->getTimestamp() ) / DAY_IN_SECONDS ) );
+$black_friday_display = $black_friday_days ? (string) $black_friday_days : 'LIVE';
+$black_friday_href = home_url( '/peak-traffic-readiness/' );
 $announcements = array(
     array( 'Will your site survive Black Friday? Free peak-readiness audit →', '/peak-traffic-readiness/', '#dc2626' ),
     array( 'Limited-time offer: 50% off hosting & services — plus an extra 20% with code EXTRA20 →', '/managed-hosting/', '#1d4ed8' ),
@@ -64,7 +74,13 @@ $announcements = array(
               <div class="site-mega__heading"><span><?php echo esc_html( strtoupper( $group['title'] ) ); ?></span><a href="<?php echo esc_url( home_url( $promo[4] ) ); ?>">Explore all →</a></div>
               <div class="site-mega__links"><?php foreach ( $group['items'] as $child ) : ?><a href="<?php echo esc_url( $child->url ); ?>"><strong><?php echo esc_html( $child->title ); ?></strong><?php if ( $child->description ) : ?><small><?php echo esc_html( $child->description ); ?></small><?php endif; ?></a><?php endforeach; ?></div>
             </div><?php endforeach; ?>
-          </div><div class="site-mega__promos"><?php foreach ( $groups as $index => $group ) : $promo = visibi_service_promo( $group['title'] ); ?><a data-service-promo="<?php echo esc_attr( $index ); ?>" href="<?php echo esc_url( home_url( $promo[4] ) ); ?>" <?php echo $index ? 'hidden' : ''; ?>><small><?php echo esc_html( $promo[0] ); ?></small><strong><?php echo esc_html( $promo[1] ); ?></strong><span><?php echo esc_html( $promo[2] ); ?></span><b><?php echo esc_html( $promo[3] ); ?> →</b></a><?php endforeach; ?></div></div>
+          </div><div class="site-mega__promos"><?php foreach ( $groups as $index => $group ) : $promo = visibi_service_promo( $group['title'] ); ?><a data-service-promo="<?php echo esc_attr( $index ); ?>" href="<?php echo esc_url( home_url( $promo[4] ) ); ?>" <?php echo $index ? 'hidden' : ''; ?>><small><?php echo esc_html( $promo[0] ); ?></small><strong><?php echo esc_html( $promo[1] ); ?></strong><span><?php echo esc_html( $promo[2] ); ?></span><b><?php echo esc_html( $promo[3] ); ?> →</b></a><?php endforeach; ?></div><?php if ( $show_black_friday_menu ) : ?>
+          <a class="site-mega__black-friday" data-black-friday-promo href="<?php echo esc_url( $black_friday_href ); ?>" title="Black Friday website readiness — load testing &amp; 24/7 cover">
+            <span class="site-mega__black-friday-badge">BLACK FRIDAY <span data-black-friday-year><?php echo esc_html( $black_friday_year ); ?></span></span>
+            <span class="site-mega__black-friday-copy"><strong>Will your site stay online on Black Friday?</strong><span>Load testing, autoscaling and a 24/7 war room — free peak-readiness audit.</span></span>
+            <span class="site-mega__black-friday-count"><strong data-black-friday-days><?php echo esc_html( $black_friday_display ); ?></strong><small data-black-friday-days-label<?php echo $black_friday_days ? '' : ' hidden'; ?>>DAYS TO GO</small></span>
+            <span class="site-mega__black-friday-cta">Get ready <span aria-hidden="true">→</span></span>
+          </a><?php endif; ?></div>
         </details></li><?php else : ?><li class="menu-item<?php echo in_array( 'current-menu-item', (array) $item->classes, true ) ? ' current-menu-item' : ''; ?>"><a href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?></a></li><?php endif; ?>
       <?php endforeach; ?>
     </ul></nav>
@@ -90,6 +106,9 @@ $announcements = array(
         <?php $contact_in_menu = false; foreach ( $mobile_after as $item ) : if ( 'Contact' === $item->title ) { $contact_in_menu = true; } ?><a class="site-mobile-sheet__link" href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?><span aria-hidden="true">→</span></a><?php endforeach; ?>
         <?php if ( ! $contact_in_menu ) : ?><a class="site-mobile-sheet__link" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact<span aria-hidden="true">→</span></a><?php endif; ?>
       </section>
+      <?php if ( $show_black_friday_menu ) : ?><a class="site-mobile-sheet__black-friday" data-black-friday-promo href="<?php echo esc_url( $black_friday_href ); ?>" title="Black Friday website readiness — load testing &amp; 24/7 cover">
+        <span class="site-mobile-sheet__black-friday-copy"><small>BLACK FRIDAY · <span data-black-friday-days><?php echo esc_html( $black_friday_display ); ?></span><span data-black-friday-days-label<?php echo $black_friday_days ? '' : ' hidden'; ?>> DAYS TO GO</span></small><strong>Will your site stay online?</strong><span>Free peak-readiness audit</span></span><span class="site-mobile-sheet__black-friday-arrow" aria-hidden="true">→</span>
+      </a><?php endif; ?>
       <a class="site-mobile-sheet__audit" href="<?php echo esc_url( $header_cta ); ?>"><small>FREE · 24H REPLY</small><strong>Free audit →</strong></a>
       <div class="site-mobile-sheet__bottom"><a href="mailto:hello@govisibi.ai">hello@govisibi.ai</a><a href="<?php echo esc_url( home_url( '/about/#meet' ) ); ?>">Book a meeting →</a></div>
     </div>
