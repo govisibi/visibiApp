@@ -62,3 +62,6 @@
 #audit [data-visibi-form]{min-width:0;width:100%}
 #audit .visibi-peak-form{width:100%;max-width:none;padding:0;border:0;border-radius:0;box-shadow:none;background:transparent}
 @media(max-width:560px){#audit>div>div:last-child{min-width:0;padding:20px!important}}
+
+/* Bring the hero closer to its breadcrumb on desktop and mobile. */
+[data-screen-label="Hero"]>div:last-child{padding-top:24px!important}

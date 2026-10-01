@@ -117,3 +117,33 @@ $announcements = array(
     </div><?php endif; ?>
   </div>
 </div>
+
+<?php
+// Keep the Peak page's existing content breadcrumb until that page is migrated.
+if ( ! is_front_page() && ! is_404() && ! is_page( array( 'peak-traffic-readiness', 'black-friday-website-readiness' ) ) ) :
+    $breadcrumb_links = array( array( 'Home', home_url( '/' ) ) );
+    if ( is_singular( 'post' ) ) {
+        $insights_page = get_page_by_path( 'insights' );
+        $breadcrumb_links[] = array( 'Insights', $insights_page ? get_permalink( $insights_page ) : home_url( '/insights/' ) );
+    } elseif ( is_page() ) {
+        foreach ( array_reverse( get_post_ancestors( get_queried_object_id() ) ) as $ancestor_id ) {
+            $breadcrumb_links[] = array( get_the_title( $ancestor_id ), get_permalink( $ancestor_id ) );
+        }
+    }
+    if ( is_singular() ) {
+        $breadcrumb_current = get_the_title( get_queried_object_id() );
+    } elseif ( is_search() ) {
+        $breadcrumb_current = 'Search results';
+    } elseif ( is_category() || is_tag() || is_tax() ) {
+        $breadcrumb_current = single_term_title( '', false );
+    } elseif ( is_post_type_archive() ) {
+        $breadcrumb_current = post_type_archive_title( '', false );
+    } else {
+        $breadcrumb_current = 'Insights';
+    }
+?>
+<nav class="visibi-breadcrumb" aria-label="Breadcrumb"><ol>
+  <?php foreach ( $breadcrumb_links as $crumb ) : ?><li><a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a></li><?php endforeach; ?>
+  <li aria-current="page"><?php echo esc_html( $breadcrumb_current ); ?></li>
+</ol></nav>
+<?php endif; ?>

@@ -112,3 +112,13 @@ img,svg,video{max-width:100%;height:auto}
 .visibi-meeting-form.is-complete>.visibi-meeting__step,.visibi-meeting-form.is-complete>.visibi-meeting__field,.visibi-meeting-form.is-complete>.visibi-button{display:none}
 .visibi-meeting-form.is-complete .visibi-form__message{color:#0b1530;font-size:15px;line-height:1.6}
 .visibi-meeting-form.is-complete .visibi-form__message::before{content:"\2713";display:grid;width:52px;height:52px;margin-bottom:10px;place-items:center;border-radius:50%;background:#1d4ed8;color:#fff;font-size:22px}
+
+/* Breadcrumbs on all pages except the homepage and Peak Traffic Readiness. */
+.visibi-breadcrumb{background:#070e22;border-top:1px solid rgba(255,255,255,.06);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+.visibi-breadcrumb ol{list-style:none;margin:0 auto;max-width:1280px;padding:10px clamp(20px,5vw,40px);display:flex;align-items:center;gap:8px;font-size:13px;line-height:1.4;color:#8e9ab6;white-space:nowrap;overflow:hidden}
+.visibi-breadcrumb li{display:flex;align-items:center;gap:8px;min-width:0}
+.visibi-breadcrumb li:last-child{overflow:hidden;text-overflow:ellipsis;color:#e6ebf5;font-weight:600}
+.visibi-breadcrumb li+li:before{content:'\203A';color:#5a6680}
+.visibi-breadcrumb a{color:#b9c4dd;text-decoration:none}
+.visibi-breadcrumb a:hover{color:#fff}
+.visibi-breadcrumb+.visibi-content>section:first-child>div[style*="max-width"]{padding-top:24px!important}
