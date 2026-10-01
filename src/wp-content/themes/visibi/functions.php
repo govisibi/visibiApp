@@ -80,7 +80,7 @@ add_action( 'wp_enqueue_scripts', function () {
         wp_enqueue_script( 'visibi-about-interactions', get_template_directory_uri() . '/assets/about-interactions.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/about-interactions.js' ), true );
     }
     if ( is_page( 'about' ) || is_page( 'careers' ) ) {
-        wp_enqueue_script( 'visibi-form-choices', get_template_directory_uri() . '/assets/form-choices.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+        wp_enqueue_script( 'visibi-form-choices', get_template_directory_uri() . '/assets/form-choices.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/form-choices.js' ), true );
     }
     if ( is_front_page() ) {
         wp_enqueue_script( 'visibi-dodge', get_template_directory_uri() . '/assets/dodge-game.js', array(), wp_get_theme()->get( 'Version' ), true );

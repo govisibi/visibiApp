@@ -153,25 +153,61 @@ function visibi_meeting_days() {
 function visibi_meeting_form() {
     ob_start();
     $state = isset( $_GET['visibi_form'] ) ? sanitize_key( wp_unslash( $_GET['visibi_form'] ) ) : '';
+    $complete = in_array( $state, array( 'sent', 'stored' ), true );
+    $meeting_days = visibi_meeting_days();
+    $first_day = array_key_first( $meeting_days );
+    $slots = array(
+        'UK' => array( '09:00', '10:00', '11:00', '12:30', '14:00', '15:00', '16:00', '17:00' ),
+        'UAE' => array( '09:00', '10:00', '11:30', '13:00', '14:30', '15:30', '16:30', '17:30' ),
+        'remote' => array( '08:00', '09:00', '10:00', '11:00', '12:00', '12:30' ),
+    );
     ?>
-    <form id="visibi-enquiry" class="visibi-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+    <form id="visibi-enquiry" class="visibi-form visibi-meeting-form<?php echo $complete ? ' is-complete' : ''; ?>" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
       <?php echo visibi_form_message( $state, 'meeting' ); ?>
       <input type="hidden" name="action" value="visibi_meeting">
       <input type="hidden" name="visibi_return" value="<?php echo esc_url( get_permalink() ); ?>">
       <?php wp_nonce_field( 'visibi_meeting', 'visibi_nonce' ); ?>
       <label class="visibi-form__honeypot" aria-hidden="true">Leave this empty<input type="text" name="visibi_website_confirm" tabindex="-1" autocomplete="off"></label>
-      <label>Where are you based? <select name="visibi_region" required><option>UK</option><option>UAE</option><option>USA</option><option>International</option></select></label>
-      <label>How would you like to meet? <select name="visibi_mode" required><option>Video call</option><option>Phone</option><option>In person</option></select></label>
-      <label>City or address for in person meetings <input name="visibi_city" maxlength="180" placeholder="Optional for video or phone"></label>
-      <label>Preferred day <select name="visibi_meeting_date" required><?php foreach ( visibi_meeting_days() as $date => $label ) : ?><option value="<?php echo esc_attr( $date ); ?>"><?php echo esc_html( $label ); ?></option><?php endforeach; ?></select></label>
-      <label>Preferred time <select name="visibi_meeting_time" required><?php foreach ( array( '08:00', '09:00', '10:00', '11:00', '12:00', '12:30', '13:00', '14:00', '14:30', '15:00', '16:00', '17:00' ) as $time ) : ?><option><?php echo esc_html( $time ); ?></option><?php endforeach; ?></select></label>
-      <label>Time zone <select name="visibi_timezone" required><option>UK time</option><option>UAE time</option><option>US Eastern time</option><option>Other (please specify below)</option></select></label>
-      <label>Full name <input name="visibi_name" autocomplete="name" required maxlength="120"></label>
-      <label>Email <input type="email" name="visibi_email" autocomplete="email" required maxlength="190"></label>
-      <label>Phone number <input type="tel" name="visibi_phone" autocomplete="tel" required maxlength="40"></label>
-      <label>What would you like to discuss? <textarea name="visibi_message" rows="3" maxlength="3000"></textarea></label>
-      <button class="visibi-button" type="submit">Request meeting &rarr;</button>
-      <small>We will confirm your meeting by email.</small>
+      <input type="hidden" name="visibi_timezone" value="UK time">
+      <fieldset class="visibi-meeting__step">
+        <legend>1. Where are you based?</legend>
+        <div class="visibi-meeting__choices visibi-meeting__regions">
+          <?php foreach ( array( 'UK' => 'UK', 'UAE' => 'UAE', 'USA' => 'USA', 'International' => 'INTL' ) as $value => $label ) : ?>
+            <label class="visibi-meeting__choice"><input type="radio" name="visibi_region" value="<?php echo esc_attr( $value ); ?>" <?php checked( 'UK', $value ); ?> required><span><?php echo esc_html( $label ); ?></span></label>
+          <?php endforeach; ?>
+        </div>
+      </fieldset>
+      <fieldset class="visibi-meeting__step">
+        <legend>2. How would you like to meet?</legend>
+        <div class="visibi-meeting__choices visibi-meeting__modes">
+          <?php foreach ( array( 'Video call', 'Phone', 'In person' ) as $mode ) : ?>
+            <label class="visibi-meeting__choice"><input type="radio" name="visibi_mode" value="<?php echo esc_attr( $mode ); ?>" <?php checked( 'Video call', $mode ); ?> required><span><?php echo esc_html( $mode ); ?></span></label>
+          <?php endforeach; ?>
+        </div>
+        <label class="visibi-meeting__city" hidden><span class="screen-reader-text">City or address for an in-person meeting</span><input name="visibi_city" maxlength="180" placeholder="Your city or address (e.g. Manchester)"></label>
+      </fieldset>
+      <fieldset class="visibi-meeting__step">
+        <legend>3. Pick a day</legend>
+        <div class="visibi-meeting__choices visibi-meeting__days">
+          <?php foreach ( $meeting_days as $date => $label ) : $day = new DateTimeImmutable( $date, wp_timezone() ); ?>
+            <label class="visibi-meeting__choice"><input type="radio" name="visibi_meeting_date" value="<?php echo esc_attr( $date ); ?>" <?php checked( $date, $first_day ); ?> required><span><small><?php echo esc_html( $day->format( 'D' ) ); ?></small><strong><?php echo esc_html( $day->format( 'j' ) ); ?></strong></span></label>
+          <?php endforeach; ?>
+        </div>
+      </fieldset>
+      <fieldset class="visibi-meeting__step">
+        <legend>4. Pick a time (<span data-meeting-timezone-label>UK time</span>)</legend>
+        <?php foreach ( $slots as $region => $times ) : ?>
+          <div class="visibi-meeting__choices visibi-meeting__slots" data-meeting-slots="<?php echo esc_attr( $region ); ?>" <?php echo 'UK' !== $region ? 'hidden' : ''; ?>>
+            <?php foreach ( $times as $time ) : ?>
+              <label class="visibi-meeting__choice"><input type="radio" name="visibi_meeting_time" value="<?php echo esc_attr( $time ); ?>" required <?php disabled( 'UK' !== $region ); ?>><span><?php echo esc_html( $time ); ?></span></label>
+            <?php endforeach; ?>
+          </div>
+        <?php endforeach; ?>
+      </fieldset>
+      <label class="visibi-meeting__field"><span class="screen-reader-text">Full name</span><input name="visibi_name" autocomplete="name" placeholder="Full name *" aria-label="Full name" required maxlength="120"></label>
+      <label class="visibi-meeting__field"><span class="screen-reader-text">Email</span><input type="email" name="visibi_email" autocomplete="email" placeholder="Email *" aria-label="Email" required maxlength="190"></label>
+      <label class="visibi-meeting__field"><span class="screen-reader-text">Phone number</span><input type="tel" inputmode="tel" name="visibi_phone" autocomplete="tel" placeholder="Phone number *" aria-label="Phone number" required maxlength="40"></label>
+      <button class="visibi-button" type="submit" data-meeting-submit>Request meeting &rarr;</button>
     </form>
     <?php
     return ob_get_clean();
