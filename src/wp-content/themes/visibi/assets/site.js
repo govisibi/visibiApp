@@ -3,6 +3,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const siteUrl = path => new URL(path.replace(/^\//, ''), base).href;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const blackFridayPromos = [...document.querySelectorAll('[data-black-friday-promo]')];
+  if (blackFridayPromos.length) {
+    const updateBlackFridayPromos = () => {
+      const now = new Date();
+      let year = now.getFullYear();
+      if (now.getMonth() === 11 && now.getDate() > 27) year += 1;
+      const firstThursday = (4 - new Date(year, 10, 1).getDay() + 7) % 7;
+      const blackFriday = new Date(year, 10, 1 + firstThursday + 22);
+      const days = Math.max(0, Math.ceil((blackFriday - now) / 86400000));
+      blackFridayPromos.forEach(promo => {
+        promo.querySelectorAll('[data-black-friday-year]').forEach(node => { node.textContent = String(year); });
+        promo.querySelectorAll('[data-black-friday-days]').forEach(node => { node.textContent = days ? String(days) : 'LIVE'; });
+        promo.querySelectorAll('[data-black-friday-days-label]').forEach(node => { node.hidden = days === 0; });
+      });
+    };
+    updateBlackFridayPromos();
+    window.setInterval(updateBlackFridayPromos, 60000);
+  }
+
   const toggle = document.querySelector('.menu-toggle');
   const sheet = document.querySelector('#site-mobile-sheet');
   const onpageToggle = document.querySelector('.site-onpage__mobile');

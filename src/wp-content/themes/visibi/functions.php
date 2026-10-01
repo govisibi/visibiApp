@@ -51,9 +51,9 @@ add_filter( 'the_content', function ( $content ) {
 
 add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'visibi-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap', array(), null );
-    wp_enqueue_style( 'visibi-style', get_stylesheet_uri(), array( 'visibi-fonts' ), wp_get_theme()->get( 'Version' ) );
+    wp_enqueue_style( 'visibi-style', get_stylesheet_uri(), array( 'visibi-fonts' ), filemtime( __DIR__ . '/style.css' ) );
     wp_enqueue_style( 'visibi-mobile-nav', get_template_directory_uri() . '/assets/mobile-nav.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/mobile-nav.css' ) );
-    wp_enqueue_script( 'visibi-site', get_template_directory_uri() . '/assets/site.js', array(), wp_get_theme()->get( 'Version' ), true );
+    wp_enqueue_script( 'visibi-site', get_template_directory_uri() . '/assets/site.js', array(), filemtime( __DIR__ . '/assets/site.js' ), true );
     if ( is_page( 'insights' ) ) {
         wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
