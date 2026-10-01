@@ -48,6 +48,20 @@ function visibi_copy_process( $content, $changes, &$fields ) {
 add_action( 'admin_menu', function () {
     add_menu_page( 'VISIBI Copy', 'VISIBI Copy', 'edit_pages', 'visibi-copy', 'visibi_copy_admin', 'dashicons-edit-page', 25 );
 } );
+add_filter( 'page_row_actions', 'visibi_copy_row_action', 10, 2 );
+add_filter( 'post_row_actions', 'visibi_copy_row_action', 10, 2 );
+function visibi_copy_row_action( $actions, $post ) {
+    if ( current_user_can( 'edit_post', $post->ID ) ) {
+        $actions['visibi_copy'] = '<a href="' . esc_url( admin_url( 'admin.php?page=visibi-copy&post=' . $post->ID ) ) . '">Edit page copy</a>';
+    }
+    return $actions;
+}
+add_action( 'add_meta_boxes', function () {
+    add_meta_box( 'visibi_easy_edit', 'VISIBI page editing', function ( $post ) {
+        echo '<p>Update wording by section without touching the imported HTML layout.</p>';
+        echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=visibi-copy&post=' . $post->ID ) ) . '">Edit page copy</a> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=visibi-images&post=' . $post->ID ) ) . '">Edit images</a></p>';
+    }, array( 'page', 'post' ), 'side' );
+} );
 
 function visibi_copy_admin() {
     if ( ! current_user_can( 'edit_pages' ) ) { wp_die( 'Access denied.' ); }
@@ -67,7 +81,9 @@ function visibi_copy_admin() {
     if ( ! $post || ! current_user_can( 'edit_post', $id ) ) { wp_die( 'Page not found.' ); }
     $fields = array();
     visibi_copy_process( $post->post_content, array(), $fields );
-    echo '<h2>' . esc_html( $post->post_title ) . '</h2><p>' . count( $fields ) . ' text fragments</p>';
+    echo '<h2>' . esc_html( $post->post_title ) . '</h2><p>Edit each section using plain text fields. Changes appear on the page after saving.</p>';
+    if ( isset( $_GET['saved'] ) ) { echo '<div class="notice notice-success"><p>Page copy saved.</p></div>'; }
+    echo '<label for="visibi-copy-search"><strong>Find text on this page</strong></label><input id="visibi-copy-search" type="search" class="regular-text" placeholder="Search headings or text" style="display:block;margin:8px 0 20px;max-width:600px;width:100%">';
     echo '<form id="visibi-copy-form" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
     echo '<input type="hidden" name="action" value="visibi_copy_save"><input type="hidden" name="post_id" value="' . esc_attr( $id ) . '">';
     echo '<textarea name="visibi_copy_json" id="visibi-copy-json" hidden></textarea>';
@@ -75,15 +91,17 @@ function visibi_copy_admin() {
     $section = '';
     foreach ( $fields as $field ) {
         if ( $field['section'] !== $section ) {
+            if ( $section !== '' ) { echo '</div></details>'; }
             $section = $field['section'];
-            echo '<h3 style="margin:25px 0 10px;border-bottom:1px solid #ccd0d4;padding-bottom:8px">' . esc_html( $section ) . '</h3>';
+            echo '<details class="visibi-copy-section" open style="max-width:940px;margin:12px 0;background:#fff;border:1px solid #ccd0d4;border-radius:8px"><summary style="padding:16px;cursor:pointer;font-size:17px;font-weight:600">' . esc_html( $section ) . '</summary><div style="padding:0 16px 8px">';
         }
         $label = strtoupper( $field['tag'] ) . ' · ' . wp_html_excerpt( $field['value'], 75, '…' );
         echo '<label style="display:block;max-width:900px;margin-bottom:12px"><span style="display:block;font-size:12px;color:#50575e;margin-bottom:4px">' . esc_html( $label ) . '</span>';
         echo '<textarea data-visibi-key="' . esc_attr( $field['key'] ) . '" rows="' . ( strlen( $field['value'] ) > 110 ? '3' : '1' ) . '" style="width:100%">' . esc_textarea( $field['value'] ) . '</textarea></label>';
     }
+    if ( $section !== '' ) { echo '</div></details>'; }
     echo '<p class="submit"><button class="button button-primary" type="submit">Save copy</button> <a class="button" href="' . esc_url( get_permalink( $id ) ) . '" target="_blank" rel="noopener">View page</a></p></form>';
-    echo '<script>document.getElementById("visibi-copy-form").addEventListener("submit",function(){var values={};this.querySelectorAll("[data-visibi-key]").forEach(function(el){values[el.dataset.visibiKey]=el.value});document.getElementById("visibi-copy-json").value=JSON.stringify(values)});</script></div>';
+    echo '<script>var visibiSearch=document.getElementById("visibi-copy-search");visibiSearch.addEventListener("input",function(){var query=this.value.trim().toLowerCase();document.querySelectorAll(".visibi-copy-section").forEach(function(section){var matches=0;section.querySelectorAll("label").forEach(function(label){var input=label.querySelector("textarea");var found=!query||label.textContent.toLowerCase().includes(query)||input.value.toLowerCase().includes(query);label.hidden=!found;if(found)matches++});section.hidden=!matches;if(query&&matches)section.open=true})});document.getElementById("visibi-copy-form").addEventListener("submit",function(){var values={};this.querySelectorAll("[data-visibi-key]").forEach(function(el){values[el.dataset.visibiKey]=el.value});document.getElementById("visibi-copy-json").value=JSON.stringify(values)});</script></div>';
 }
 
 add_action( 'admin_post_visibi_copy_save', function () {

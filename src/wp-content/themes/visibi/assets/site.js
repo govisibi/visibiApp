@@ -4,14 +4,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const toggle = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('#site-nav');
-  const closeNav = () => { if (toggle && nav) { toggle.setAttribute('aria-expanded', 'false'); nav.classList.remove('is-open'); } };
-  if (toggle && nav) toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') !== 'true';
+  const sheet = document.querySelector('#site-mobile-sheet');
+  const onpageToggle = document.querySelector('.site-onpage__mobile');
+  const mobileTabs = [...document.querySelectorAll('[data-mobile-tab]')];
+  const mobilePanels = [...document.querySelectorAll('[data-mobile-panel]')];
+  let mobileTab = 'menu';
+  const positionSheet = () => {
+    if (sheet && !sheet.hidden) sheet.style.top = `${Math.max(0, Math.round(document.querySelector('.site-header').getBoundingClientRect().bottom))}px`;
+  };
+  const selectMobileTab = tab => {
+    mobileTab = tab;
+    mobileTabs.forEach(button => button.setAttribute('aria-selected', String(button.dataset.mobileTab === tab)));
+    mobilePanels.forEach(panel => { panel.hidden = panel.dataset.mobilePanel !== tab; });
+    onpageToggle?.setAttribute('aria-expanded', String(!sheet.hidden && tab === 'onpage'));
+    sheet.scrollTop = 0;
+  };
+  const setMobileOpen = (open, tab = 'menu') => {
+    if (!sheet || !toggle) return;
+    sheet.hidden = !open;
+    document.body.classList.toggle('visibi-mobile-open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    nav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    onpageToggle?.setAttribute('aria-expanded', String(open && tab === 'onpage'));
+    if (open) { selectMobileTab(tab); positionSheet(); }
+  };
+  toggle?.addEventListener('click', () => {
+    setMobileOpen(sheet.hidden || mobileTab !== 'menu', 'menu');
   });
-  nav?.querySelectorAll('a[href^="#"],a[href*="/"]').forEach(link => link.addEventListener('click', closeNav));
+  onpageToggle?.addEventListener('click', () => {
+    setMobileOpen(sheet.hidden || mobileTab !== 'onpage', 'onpage');
+  });
+  mobileTabs.forEach(button => button.addEventListener('click', () => selectMobileTab(button.dataset.mobileTab)));
+  sheet?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMobileOpen(false)));
+  sheet?.querySelectorAll('.site-mobile-service').forEach(details => details.addEventListener('toggle', () => {
+    if (details.open) sheet.querySelectorAll('.site-mobile-service[open]').forEach(other => { if (other !== details) other.open = false; });
+  }));
+  window.addEventListener('resize', () => { if (window.innerWidth >= 1180) setMobileOpen(false); else positionSheet(); });
+  window.addEventListener('scroll', positionSheet, { passive: true });
 
   const services = document.querySelector('#site-services');
   const serviceTabs = [...document.querySelectorAll('[data-service-tab]')];
@@ -34,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   document.addEventListener('mousedown', event => { if (services?.open && !services.contains(event.target)) services.open = false; });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (services) services.open = false; closeNav(); } });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (services) services.open = false; setMobileOpen(false); } });
 
   const banner = document.querySelector('[data-visibi-announcement]');
   if (banner) {

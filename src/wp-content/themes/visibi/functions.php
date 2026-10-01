@@ -13,10 +13,46 @@ add_action( 'after_setup_theme', function () {
     add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
     register_nav_menus( array( 'primary' => 'Primary navigation', 'services' => 'Services mega menu', 'footer' => 'Footer navigation' ) );
 } );
+add_filter( 'body_class', function ( $classes ) {
+    if ( is_page( 'about' ) ) { $classes[] = 'visibi-about'; }
+    return $classes;
+} );
+add_action( 'init', function () {
+    remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+    remove_action( 'wp_print_styles', 'print_emoji_styles' );
+} );
+
+/** Serve responsive WebP versions of the approved team photos in the imported About layout. */
+add_filter( 'the_content', function ( $content ) {
+    if ( ! is_main_query() || ! is_page( 'about' ) || ! str_contains( $content, 'teams-image' ) ) { return $content; }
+    return preg_replace_callback( '~<img\b[^>]*\balt="([^"]+)"[^>]*>~i', function ( $matches ) {
+        $alt = html_entity_decode( $matches[1], ENT_QUOTES, 'UTF-8' );
+        $slug = 'The VISIBI team together' === $alt ? 'teams-image' : sanitize_title( $alt );
+        if ( ! str_contains( $matches[0], '/' . $slug ) || str_contains( $matches[0], ' srcset=' ) ) { return $matches[0]; }
+        $files = glob( __DIR__ . '/assets/team-webp/' . $slug . '-*.webp' );
+        $sources = array();
+        foreach ( $files as $file ) {
+            if ( preg_match( '/-(\d+)\.webp$/', $file, $width ) ) {
+                $sources[ (int) $width[1] ] = get_template_directory_uri() . '/assets/team-webp/' . basename( $file );
+            }
+        }
+        ksort( $sources, SORT_NUMERIC );
+        if ( ! $sources ) { return $matches[0]; }
+        $sizes = 'teams-image' === $slug ? '(max-width: 600px) calc(100vw - 40px), (max-width: 1180px) 50vw, 572px' : '(max-width: 600px) calc((100vw - 52px) / 2), 240px';
+        $preferred_width = 'teams-image' === $slug ? 768 : 320;
+        $src_width = array_key_first( $sources );
+        foreach ( $sources as $width => $url ) { if ( $width >= $preferred_width ) { $src_width = $width; break; } }
+        $image = preg_replace( '~\bsrc="[^"]+"~', 'src="' . esc_url( $sources[ $src_width ] ) . '"', $matches[0], 1 );
+        $srcset = array();
+        foreach ( $sources as $width => $url ) { $srcset[] = esc_url( $url ) . ' ' . $width . 'w'; }
+        return preg_replace( '~\s*/?>$~', ' srcset="' . esc_attr( implode( ', ', $srcset ) ) . '" sizes="' . esc_attr( $sizes ) . '">', $image );
+    }, $content );
+}, 20 );
 
 add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'visibi-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap', array(), null );
     wp_enqueue_style( 'visibi-style', get_stylesheet_uri(), array( 'visibi-fonts' ), wp_get_theme()->get( 'Version' ) );
+    wp_enqueue_style( 'visibi-mobile-nav', get_template_directory_uri() . '/assets/mobile-nav.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/mobile-nav.css' ) );
     wp_enqueue_script( 'visibi-site', get_template_directory_uri() . '/assets/site.js', array(), wp_get_theme()->get( 'Version' ), true );
     if ( is_page( 'insights' ) ) {
         wp_enqueue_script( 'visibi-insights', get_template_directory_uri() . '/assets/insights.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );

@@ -20,5 +20,25 @@
     <div class="site-footer__bottom"><span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> VISIBI. All rights reserved.</span><span><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms of use</a> &nbsp; <a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy policy</a> &nbsp; <a href="<?php echo esc_url( home_url( '/privacy/#cookies' ) ); ?>">Cookies</a> &nbsp; <a href="<?php echo esc_url( home_url( '/search/' ) ); ?>">Search</a> &nbsp; <a href="<?php echo esc_url( home_url( '/sitemap/' ) ); ?>">Sitemap</a></span></div>
   </div>
 </footer>
+<?php
+$mobile_cta_data = json_decode( (string) file_get_contents( __DIR__ . '/assets/mobile-cta-data.json' ), true );
+$mobile_cta_slug = is_front_page() ? 'home' : ( is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '' );
+$mobile_cta = $mobile_cta_data[ $mobile_cta_slug ] ?? null;
+if ( $mobile_cta ) :
+    $mobile_cta_href = $mobile_cta['href'] ?? '';
+    if ( str_contains( $mobile_cta_href, '{{' ) ) {
+        $mobile_cta_href = str_contains( (string) get_post_field( 'post_content', get_queried_object_id() ), 'id="audit"' ) ? '#audit' : '#quote';
+    } elseif ( str_ends_with( $mobile_cta_href, '.dc.html' ) ) {
+        $mobile_cta_href = home_url( '/' . sanitize_title( substr( $mobile_cta_href, 0, -8 ) ) . '/' );
+    }
+    $mobile_cta_title = $mobile_cta['title'] ?? '';
+    if ( str_contains( $mobile_cta_title, '{{' ) ) { $mobile_cta_title = get_the_title(); }
+    $mobile_cta_sub = $mobile_cta['sub'] ?? '';
+    if ( str_contains( $mobile_cta_sub, '{{' ) ) { $mobile_cta_sub = 'Speak to a VISIBI specialist'; }
+    $mobile_cta_label = $mobile_cta['label'] ?? 'Free audit →';
+    if ( str_contains( $mobile_cta_label, '{{' ) ) { $mobile_cta_label = 'Free audit →'; }
+    ?>
+    <aside class="visibi-mobile-cta" aria-label="Quick enquiry"><span><strong><?php echo esc_html( $mobile_cta_title ); ?></strong><small><?php echo esc_html( $mobile_cta_sub ); ?></small></span><a href="<?php echo esc_url( $mobile_cta_href ); ?>"><?php echo esc_html( $mobile_cta_label ); ?></a></aside>
+<?php endif; ?>
 <?php wp_footer(); ?>
 </body></html>

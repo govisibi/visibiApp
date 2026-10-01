@@ -17,6 +17,8 @@
   if (!stripLabel) return;
   const strip = stripLabel.parentElement;
   if (!strip) return;
+  strip.classList.add('visibi-logo-strip');
+  stripLabel.classList.add('visibi-logo-strip__label');
   strip.querySelectorAll('span').forEach(el => {
     const label = [...el.childNodes]
       .filter(node => node.nodeType === Node.TEXT_NODE)
