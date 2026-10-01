@@ -30,7 +30,7 @@ foreach ( $onpage as $link ) {
 }
 $announcements = array(
     array( 'Will your site survive Black Friday? Free peak-readiness audit →', '/peak-traffic-readiness/', '#dc2626' ),
-    array( 'Launch offer: 50% off hosting & services — plus an extra 20% with code EXTRA20 →', '/managed-hosting/', '#1d4ed8' ),
+    array( 'Limited-time offer: 50% off hosting & services — plus an extra 20% with code EXTRA20 →', '/managed-hosting/', '#1d4ed8' ),
     array( 'New: VISIBI Radar — see how ChatGPT & Gemini rank your brand. 7-day free trial →', '/radar/', '#0b1530' ),
 );
 ?><!doctype html>

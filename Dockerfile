@@ -3,6 +3,10 @@ FROM wordpress:php8.3-apache
 COPY src/wp-content/themes/visibi/ /opt/visibi/theme/
 COPY src/wp-content/mu-plugins/ /opt/visibi/mu-plugins/
 COPY src/scripts/import-team-photos.php /opt/visibi/import-team-photos.php
+COPY src/scripts/import-peak-page.php /opt/visibi/import-peak-page.php
+COPY src/content/peak-traffic-readiness.html /opt/visibi/peak-content.html
+COPY src/scripts/import-about-page.php /opt/visibi/import-about-page.php
+COPY src/content/about.html /opt/visibi/about-content.html
 COPY src/deploy/site-config.php /opt/visibi/site-config.php
 COPY src/deploy/.htaccess /opt/visibi/site.htaccess
 COPY src/deploy/robots.txt /opt/visibi/robots.txt

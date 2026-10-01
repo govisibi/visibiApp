@@ -71,7 +71,11 @@ add_action( 'wp_enqueue_scripts', function () {
         wp_enqueue_script( 'visibi-ai-agents', get_template_directory_uri() . '/assets/ai-agents.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
     }
     if ( is_page( 'peak-traffic-readiness' ) ) {
-        wp_enqueue_script( 'visibi-peak-calculator', get_template_directory_uri() . '/assets/peak-calculator.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
+        wp_enqueue_style( 'visibi-peak', get_template_directory_uri() . '/assets/peak.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/peak.css' ) );
+        wp_enqueue_script( 'visibi-peak-interactions', get_template_directory_uri() . '/assets/peak-interactions.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/peak-interactions.js' ), true );
+    }
+    if ( is_page( 'about' ) ) {
+        wp_enqueue_script( 'visibi-about-interactions', get_template_directory_uri() . '/assets/about-interactions.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/about-interactions.js' ), true );
     }
     if ( is_page( 'about' ) || is_page( 'careers' ) ) {
         wp_enqueue_script( 'visibi-form-choices', get_template_directory_uri() . '/assets/form-choices.js', array( 'visibi-site' ), wp_get_theme()->get( 'Version' ), true );
@@ -137,9 +141,38 @@ add_action( 'wp_head', function () {
 }, 5 );
 
 /** A simple, editable fallback form. Fluent Forms can replace this shortcode after configuration. */
+function visibi_peak_form() {
+    ob_start();
+    $state = isset( $_GET['visibi_form'] ) ? sanitize_key( wp_unslash( $_GET['visibi_form'] ) ) : '';
+    ?>
+    <form id="visibi-enquiry" class="visibi-form visibi-peak-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+      <?php echo visibi_form_message( $state, 'enquiry' ); ?>
+      <input type="hidden" name="action" value="visibi_lead">
+      <input type="hidden" name="visibi_peak_audit" value="1">
+      <input type="hidden" name="visibi_return" value="<?php echo esc_url( get_permalink() ); ?>">
+      <?php wp_nonce_field( 'visibi_lead', 'visibi_nonce' ); ?>
+      <label class="visibi-form__honeypot" aria-hidden="true">Leave this empty<input type="text" name="visibi_check_field" tabindex="-1" autocomplete="new-password"></label>
+      <div class="visibi-peak-form__heading">Book your free audit</div>
+      <fieldset class="visibi-peak-form__history"><legend>Did your site slow down or crash last peak?</legend>
+        <input type="hidden" name="visibi_peak_history" value="">
+        <div class="visibi-peak-form__choices"><button type="button" data-peak-history="Crashed">Crashed</button><button type="button" data-peak-history="Slowed down">Slowed down</button><button type="button" data-peak-history="Held up">Held up</button></div>
+      </fieldset>
+      <label>Platform <select name="visibi_peak_platform"><option value="">Select your platform</option><option>Magento / Adobe Commerce</option><option>Shopify Plus</option><option>WooCommerce</option><option>Other</option></select></label>
+      <label>Store URL * <input type="text" name="visibi_url" inputmode="url" autocomplete="url" placeholder="example.com or https://example.com" required maxlength="255"></label>
+      <label>Full name * <input name="visibi_name" autocomplete="name" required maxlength="120"></label>
+      <label>Email * <input type="email" name="visibi_email" autocomplete="email" required maxlength="190"></label>
+      <label>Phone number (optional) <input type="tel" name="visibi_phone" autocomplete="tel" maxlength="40"></label>
+      <label>Anything we should know? <textarea name="visibi_message" rows="3" maxlength="3000"></textarea></label>
+      <button class="visibi-button" type="submit">Book free audit &rarr;</button>
+      <small>A senior engineer replies within 24 hours.</small>
+    </form>
+    <?php
+    return ob_get_clean();
+}
 add_shortcode( 'visibi_lead_form', function ( $atts ) {
     if ( is_page( 'careers' ) ) { return visibi_career_form(); }
     if ( is_page( 'about' ) ) { return visibi_meeting_form(); }
+    if ( is_page( 'peak-traffic-readiness' ) ) { return visibi_peak_form(); }
     $default_need = is_page( 'contact' ) ? 'Free AI visibility audit' : 'Enquiry about ' . get_the_title();
     $atts = shortcode_atts( array( 'need' => $default_need ), $atts );
     $fluent_id = absint( get_option( 'visibi_fluent_form_id', 0 ) );
@@ -203,7 +236,14 @@ function visibi_handle_lead() {
     $url = visibi_normalize_website_url( $raw_url );
     $need = isset( $_POST['visibi_need'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_need'] ) ) : '';
     $message = isset( $_POST['visibi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['visibi_message'] ) ) : '';
-    if ( ! $name || ! is_email( $email ) || ! $phone || ( $raw_url && ! $url ) ) { visibi_form_redirect( $return, 'error' ); }
+    $peak_audit = ! empty( $_POST['visibi_peak_audit'] ) && '/peak-traffic-readiness/' === wp_parse_url( $return, PHP_URL_PATH );
+    if ( ! $name || ! is_email( $email ) || ( ! $phone && ! $peak_audit ) || ( $peak_audit && ! $raw_url ) || ( $raw_url && ! $url ) ) { visibi_form_redirect( $return, 'error' ); }
+    if ( $peak_audit ) {
+        $history = isset( $_POST['visibi_peak_history'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_peak_history'] ) ) : '';
+        $platform = isset( $_POST['visibi_peak_platform'] ) ? sanitize_text_field( wp_unslash( $_POST['visibi_peak_platform'] ) ) : '';
+        $need = 'Free peak-readiness audit';
+        $message = "Last peak: {$history}\nPlatform: {$platform}\n\n{$message}";
+    }
     $rate_key = 'visibi_lead_' . md5( strtolower( $email ) . '|' . (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
     if ( (int) get_transient( $rate_key ) >= 5 ) { visibi_form_redirect( $return, 'rate' ); }
     set_transient( $rate_key, (int) get_transient( $rate_key ) + 1, HOUR_IN_SECONDS );
