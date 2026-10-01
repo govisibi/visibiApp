@@ -10,6 +10,11 @@ function visibi_insights_media( $post, $category, $featured = false ) {
         return '<div class="visibi-insights-media">' . get_the_post_thumbnail( $post->ID, 'visibi-card', $attributes ) . '</div>';
     }
 
+    if ( $featured && 'stop-stock-integrations-triggering-full-magento-reindexing' === $post->post_name ) {
+        $image_url = get_template_directory_uri() . '/assets/insights-covers/stop-stock-integrations-triggering-full-magento-reindexing.jpg';
+        return '<div class="visibi-insights-media"><img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( wp_strip_all_tags( $title ) ) . '" width="460" height="259" loading="eager" decoding="async" fetchpriority="high"></div>';
+    }
+
     $colors = array(
         'Security' => array( '#3b0d12', '#fca5a5' ),
         'Performance' => array( '#0b2a3a', '#7dd3fc' ),
