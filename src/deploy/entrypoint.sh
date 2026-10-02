@@ -30,6 +30,7 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
   su -s /bin/sh www-data -c 'php /opt/visibi/import-success-stories-images.php'
   su -s /bin/sh www-data -c 'php /opt/visibi/import-service-media.php'
   su -s /bin/sh www-data -c 'php /opt/visibi/import-ecommerce-team.php'
+  su -s /bin/sh www-data -c 'php /opt/visibi/import-contact-details.php'
   case "${VISIBI_SITE_URL:-https://govisibi.ai}" in
     https://govisibi.ai|https://govisibi.ai/)
       su -s /bin/sh www-data -c 'php /opt/visibi/import-peak-page.php'
