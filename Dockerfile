@@ -7,6 +7,7 @@ COPY src/scripts/import-site-media.php /opt/visibi/import-site-media.php
 COPY src/scripts/import-success-stories-images.php /opt/visibi/import-success-stories-images.php
 COPY src/scripts/import-service-media.php /opt/visibi/import-service-media.php
 COPY src/scripts/import-ecommerce-team.php /opt/visibi/import-ecommerce-team.php
+COPY src/scripts/import-contact-details.php /opt/visibi/import-contact-details.php
 COPY src/scripts/import-peak-page.php /opt/visibi/import-peak-page.php
 COPY src/content/peak-traffic-readiness.html /opt/visibi/peak-content.html
 COPY src/scripts/import-about-page.php /opt/visibi/import-about-page.php
