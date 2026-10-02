@@ -12,16 +12,25 @@ add_filter( 'the_content', function ( $content ) {
         $content = str_replace( array( 'TRUSTED BY MARKETING TEAMS AT', 'TRUSTED BY ECOMMERCE TEAMS AT' ), array( 'BUILT FOR MARKETING TEAMS', 'BUILT FOR ECOMMERCE TEAMS' ), $content );
     }
     $slots = get_post_meta( get_queried_object_id(), '_visibi_media_slots', true );
-    if ( ! is_array( $slots ) ) {
-        if ( ! $example_page ) { return $content; }
-        $slots = array();
-    }
+    if ( ! is_array( $slots ) ) { $slots = array(); }
     return preg_replace_callback( '/(<span\b[^>]*class="visibi-media-slot"[^>]*data-visibi-slot="([^"]+)"[^>]*>).*?<\/span>/s', function ( $match ) use ( $slots, $example_page ) {
         $id = $match[2];
         $attachment = isset( $slots[ $id ] ) ? absint( $slots[ $id ] ) : 0;
         if ( ! $attachment || ! wp_attachment_is_image( $attachment ) ) {
             if ( $example_page && preg_match( '/^(?:radar|guard)-logo-([1-6])$/', $id, $logo_match ) ) {
                 $image_url = get_stylesheet_directory_uri() . '/assets/sample-brand-marks/mark-' . $logo_match[1] . '.svg';
+                $image = '<img src="' . esc_url( $image_url ) . '" class="visibi-slot-image" alt="" aria-hidden="true" loading="lazy" decoding="async" width="140" height="60">';
+                return str_replace( 'class="visibi-media-slot"', 'class="visibi-media-slot is-filled"', $match[1] ) . $image . '</span>';
+            }
+            // These marks are decorative; they do not portray customer or certification logos.
+            $mark = 0;
+            if ( preg_match( '/^cert-[a-z0-9]+-([0-4])$/i', $id, $mark_match ) ) {
+                $mark = (int) $mark_match[1] + 1;
+            } elseif ( preg_match( '/^logo-[hm]-([1-5])$/', $id, $mark_match ) ) {
+                $mark = (int) $mark_match[1];
+            }
+            if ( $mark ) {
+                $image_url = get_stylesheet_directory_uri() . '/assets/sample-brand-marks/mark-' . $mark . '.svg';
                 $image = '<img src="' . esc_url( $image_url ) . '" class="visibi-slot-image" alt="" aria-hidden="true" loading="lazy" decoding="async" width="140" height="60">';
                 return str_replace( 'class="visibi-media-slot"', 'class="visibi-media-slot is-filled"', $match[1] ) . $image . '</span>';
             }
