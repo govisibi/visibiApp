@@ -7,6 +7,12 @@ a2enmod mpm_prefork >/dev/null
 mkdir -p /var/www/html/wp-content/themes /var/www/html/wp-content/mu-plugins
 mkdir -p /var/www/html/wp-content/themes/visibi
 cp -a /opt/visibi/theme/. /var/www/html/wp-content/themes/visibi/
+rm -f -- \
+  '/var/www/html/wp-content/themes/visibi/assets/team-originals/adnan khan.png' \
+  /var/www/html/wp-content/themes/visibi/assets/team/adnan-khan.png \
+  /var/www/html/wp-content/themes/visibi/assets/team/teams-image.png \
+  /var/www/html/wp-content/themes/visibi/assets/team-webp/adnan-khan-*.webp \
+  /var/www/html/wp-content/themes/visibi/assets/team-webp/teams-image-*.webp
 cp -a /opt/visibi/mu-plugins/. /var/www/html/wp-content/mu-plugins/
 cp /opt/visibi/site-config.php /var/www/html/wp-config.php
 if [ -n "${VISIBI_SITE_URL:-}" ]; then
@@ -39,6 +45,10 @@ if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
       su -s /bin/sh www-data -c 'php /opt/visibi/restore-exact-page-html.php'
       ;;
   esac
+fi
+
+if [ -n "${WORDPRESS_DB_HOST:-}${WORDPRESS_DB_HOST_FILE:-}" ]; then
+  su -s /bin/sh www-data -c 'php /opt/visibi/remove-public-adnan.php'
 fi
 
 exec docker-entrypoint.sh "$@"

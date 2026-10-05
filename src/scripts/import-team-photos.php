@@ -15,7 +15,7 @@ require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 $names = array(
-    'Adnan Khan', 'Saeed Ak', 'Omar Al Hashimi', 'Daniel Hughes', 'Priya Nair',
+    1 => 'Saeed Ak', 'Omar Al Hashimi', 'Daniel Hughes', 'Priya Nair',
     'Thomas Reid', 'Hannah Clarke', 'Layla Haddad', 'Michael Turner',
     'Lukas Weber', 'Sophie Martin', 'Wei Ling Tan', 'Arjun Mehta'
 );
@@ -60,17 +60,17 @@ foreach ( $names as $index => $name ) {
     if ( $parent_count !== 1 || $slot_count !== 1 ) { fwrite( STDERR, "About card structure changed: $slot\n" ); exit( 1 ); }
     ++$updated;
 }
-if ( $updated !== count( $names ) ) { fwrite( STDERR, "Expected 13 portrait slots, found $updated\n" ); exit( 1 ); }
-$team_source = $asset_dir . 'teams-image.png';
+if ( $updated !== count( $names ) ) { fwrite( STDERR, "Expected 12 portrait slots, found $updated\n" ); exit( 1 ); }
+$team_source = $asset_dir . 'team-group-2026.png';
 if ( ! is_readable( $team_source ) ) { fwrite( STDERR, "Team group photo missing\n" ); exit( 1 ); }
-$group_photo = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_visibi_team_photo', 'meta_value' => 'teams-image', 'posts_per_page' => 1, 'fields' => 'ids' ) );
+$group_photo = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_visibi_team_photo', 'meta_value' => 'team-group-2026', 'posts_per_page' => 1, 'fields' => 'ids' ) );
 $group_id = $group_photo ? (int) $group_photo[0] : 0;
 if ( ! $group_id ) {
-    $temporary = wp_tempnam( 'teams-image.png' );
+    $temporary = wp_tempnam( 'team-group-2026.png' );
     if ( ! $temporary || ! copy( $team_source, $temporary ) ) { fwrite( STDERR, "Could not stage team group photo\n" ); exit( 1 ); }
-    $group_id = media_handle_sideload( array( 'name' => 'teams-image.png', 'tmp_name' => $temporary ), $page->ID, 'VISIBI team' );
+    $group_id = media_handle_sideload( array( 'name' => 'team-group-2026.png', 'tmp_name' => $temporary ), $page->ID, 'VISIBI team' );
     if ( is_wp_error( $group_id ) ) { @unlink( $temporary ); fwrite( STDERR, "Could not import team group photo\n" ); exit( 1 ); }
-    update_post_meta( $group_id, '_visibi_team_photo', 'teams-image' );
+    update_post_meta( $group_id, '_visibi_team_photo', 'team-group-2026' );
 }
 $group_image = wp_get_attachment_image( $group_id, 'large', false, array(
     'alt' => 'The VISIBI team together', 'style' => 'display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%'

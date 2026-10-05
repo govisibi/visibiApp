@@ -26,10 +26,10 @@ add_action( 'init', function () {
 
 /** Serve responsive WebP versions of the approved team photos in the imported About layout. */
 add_filter( 'the_content', function ( $content ) {
-    if ( ! is_main_query() || ! is_page( 'about' ) || ! str_contains( $content, 'teams-image' ) ) { return $content; }
+    if ( ! is_main_query() || ! is_page( 'about' ) || ! str_contains( $content, 'team-group-2026' ) ) { return $content; }
     return preg_replace_callback( '~<img\b[^>]*\balt="([^"]+)"[^>]*>~i', function ( $matches ) {
         $alt = html_entity_decode( $matches[1], ENT_QUOTES, 'UTF-8' );
-        $slug = 'The VISIBI team together' === $alt ? 'teams-image' : sanitize_title( $alt );
+        $slug = 'The VISIBI team together' === $alt ? 'team-group-2026' : sanitize_title( $alt );
         if ( ! str_contains( $matches[0], '/' . $slug ) || str_contains( $matches[0], ' srcset=' ) ) { return $matches[0]; }
         $files = glob( __DIR__ . '/assets/team-webp/' . $slug . '-*.webp' );
         $sources = array();
@@ -40,8 +40,8 @@ add_filter( 'the_content', function ( $content ) {
         }
         ksort( $sources, SORT_NUMERIC );
         if ( ! $sources ) { return $matches[0]; }
-        $sizes = 'teams-image' === $slug ? '(max-width: 600px) calc(100vw - 40px), (max-width: 1180px) 50vw, 572px' : '(max-width: 600px) calc((100vw - 52px) / 2), 240px';
-        $preferred_width = 'teams-image' === $slug ? 768 : 320;
+        $sizes = 'team-group-2026' === $slug ? '(max-width: 600px) calc(100vw - 40px), (max-width: 1180px) 50vw, 572px' : '(max-width: 600px) calc((100vw - 52px) / 2), 240px';
+        $preferred_width = 'team-group-2026' === $slug ? 768 : 320;
         $src_width = array_key_first( $sources );
         foreach ( $sources as $width => $url ) { if ( $width >= $preferred_width ) { $src_width = $width; break; } }
         $image = preg_replace( '~\bsrc="[^"]+"~', 'src="' . esc_url( $sources[ $src_width ] ) . '"', $matches[0], 1 );
