@@ -1,0 +1,102 @@
+/* Ecommerce Development: restore the presentation filtered from imported HTML. */
+body.visibi-ecommerce .visibi-content { --ec-ink:#0b1530; --ec-blue:#1d4ed8; --ec-muted:#5a6680; --ec-line:#e3e8f2; }
+body.visibi-ecommerce .visibi-content > div:first-child { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content > div:first-child > span { background:#fff; box-shadow:0 0 0 4px rgba(255,255,255,.25); }
+body.visibi-ecommerce .visibi-content > div:first-child a { color:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] { background:#070e22; color:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:first-child,
+body.visibi-ecommerce .visibi-content #switch > div:first-child { inset:0; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:first-child { color:#b9c4dd; border:1px solid rgba(255,255,255,.16); padding:6px 14px 6px 6px!important; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:first-child > span:first-child { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] h1 span { color:#6f98ff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] p,
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:nth-child(4) { color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:nth-child(4) { background:#fff; }
+.visibi-ecommerce-url { flex:3 1 180px; min-width:0; border:0; outline:0; padding:12px 18px; font:inherit; font-size:15px; border-radius:999px; color:#0b1530; background:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:nth-child(4) a { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:nth-child(5) { color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:nth-child(5) span span { color:#6f98ff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px); }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:first-child { color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:first-child > span { background:#6f98ff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > div:first-child { background:#fff; color:#0b1530; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > div:first-child > div:first-child { color:#5a6680; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > div:first-child > div:last-child { color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > div:last-child { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) > div:last-child > div:first-child,
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div:first-child { color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > div:nth-child(-n+6) { background:rgba(255,255,255,.23); }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > div:nth-child(7) { background:#6f98ff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > div:nth-child(n+8) { background:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div:last-child { color:#7c88a6; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:last-child { border-top:1px solid rgba(255,255,255,.1); }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:last-child > div > span { color:#7c88a6; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:last-child > div > span:first-child { color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Problem"] > div:nth-child(2) { border-top:2px solid #0b1530; padding-top:32px; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Problem"] > div:nth-child(2) > div > div:first-child { color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Problem"] p { color:#5a6680; }
+body.visibi-ecommerce .visibi-content #switch,
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"],
+body.visibi-ecommerce .visibi-content #start { background:#070e22; color:#fff; }
+body.visibi-ecommerce .visibi-content #switch h2 span,
+body.visibi-ecommerce .visibi-content #calculator h2 span { color:#6f98ff; }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(2) { border:1px solid rgba(255,255,255,.15); overflow:auto; }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(2) > div > div:first-child { background:rgba(255,255,255,.08); color:#b9c4dd; }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(2) > div > div:not(:first-child) { border-top:1px solid rgba(255,255,255,.12); }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(2) > div > div > div:last-child { background:rgba(29,78,216,.15); }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(3) > div { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); }
+body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(3) > div > div:first-child { color:#6f98ff; }
+body.visibi-ecommerce .visibi-content #switch a[href="#start"] { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content #platforms,
+body.visibi-ecommerce .visibi-content #audit,
+body.visibi-ecommerce .visibi-content #process { background:#f4f6fb; border-block:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #platforms .scp0 { background:#fff; border:1px solid #e3e8f2; color:#0b1530; }
+body.visibi-ecommerce .visibi-content #platforms .scp0:nth-child(2) { border-color:#1d4ed8; box-shadow:0 14px 36px rgba(29,78,216,.12); }
+body.visibi-ecommerce .visibi-content #platforms .scp0 > div:first-child > span { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content #platforms .scp0 > div:nth-child(4) { border-block:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #platforms .scp0 > div:nth-child(4) > div > span:first-child { color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content #platforms .scp0 > a[href="#start"] { background:#1d4ed8; color:#fff; }
+body.visibi-ecommerce .visibi-content #platforms p,
+body.visibi-ecommerce .visibi-content #calculator p,
+body.visibi-ecommerce .visibi-content #audit p { color:#5a6680; }
+body.visibi-ecommerce .visibi-content #calculator > div:nth-child(2) { background:#fff; border:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #calculator input[type="range"] { width:100%; accent-color:#1d4ed8; cursor:pointer; }
+body.visibi-ecommerce .visibi-content #calculator > div:nth-child(2) > div:last-child { background:#0b1530; color:#fff; }
+body.visibi-ecommerce .visibi-content #calculator > div:nth-child(2) > div:last-child a { background:#fff; color:#0b1530; }
+body.visibi-ecommerce .visibi-content #audit > div > div:first-child > div:first-child { background:#dbe5ff; color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content #audit > div > div:first-child > div:nth-child(4) > div { background:#fff; border:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #audit > div > div:first-child > div:nth-child(4) > div > span { background:#dbe5ff; color:#1d4ed8; place-items:center; }
+body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:first-child,
+body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:last-child { background:#fff; border:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:first-child > div:nth-child(2) > div { background:#eef2fa; }
+body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:first-child > div:nth-child(3) > div { background:#f4f6fb; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"] > div > div:nth-child(2) > div:first-child { background:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"] .scp1 { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:#fff; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"] .scp1:hover { background:rgba(255,255,255,.1); }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"] .scp1 > div:first-child,
+body.visibi-ecommerce .visibi-content section[data-screen-label="Services"] .scp1 > div:last-child { color:#6f98ff; }
+body.visibi-ecommerce .visibi-content #work > div:nth-child(2),
+body.visibi-ecommerce .visibi-content #work > div:nth-child(3) > div { border:1px solid #e3e8f2; border-radius:24px; overflow:hidden; }
+body.visibi-ecommerce .visibi-content #work > div:nth-child(3) > div { padding:24px; }
+body.visibi-ecommerce .visibi-content #work div[style*="font-size: clamp"] { color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Accreditations"],
+body.visibi-ecommerce .visibi-content section[data-screen-label="Insights"] { border-top:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #process > div > div:nth-child(2) > div { background:#fff; border:1px solid #e3e8f2; border-radius:20px; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Testimonials"] > div:nth-child(2) > div { background:#f4f6fb; border:1px solid #e3e8f2; border-radius:20px; }
+body.visibi-ecommerce .visibi-content #start > div:nth-child(2) > div:last-child { background:#fff; color:#0b1530; border-radius:24px; }
+body.visibi-ecommerce .visibi-content #start > div:nth-child(2) > div:last-child > div:first-child > div { background:#dbe5ff; }
+body.visibi-ecommerce .visibi-content #start > div:nth-child(2) > div:last-child > div:first-child > div:first-child { background:#1d4ed8; }
+body.visibi-ecommerce .visibi-content #start button { background:#eef2fa; color:#0b1530; border:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #start button:hover { background:#dbe5ff; border-color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Insights"] > div > div:last-child > a { border:1px solid #e3e8f2; border-radius:20px; overflow:hidden; color:#0b1530; }
+body.visibi-ecommerce .visibi-content section[data-screen-label="Insights"] > div > div:last-child > a:hover { border-color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content #faq details { border-bottom:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #faq > div:last-child > div { border-bottom:1px solid #e3e8f2; }
+body.visibi-ecommerce .visibi-content #faq button > span:last-child { place-items:center; background:#eef2fa; color:#1d4ed8; }
+body.visibi-ecommerce .visibi-content #faq button[aria-expanded="true"] > span:last-child { background:#1d4ed8; color:#fff; }
+@media(max-width:767px){
+ body.visibi-ecommerce .visibi-content section[data-screen-label="Hero"] > div:nth-child(3) > div:first-child > div:first-child { padding:6px 10px 6px 6px!important; }
+ body.visibi-ecommerce .visibi-content #switch > div:nth-child(2) > div:nth-child(2) { overflow-x:auto; }
+ body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:first-child > div:nth-child(2) { gap:5px!important; }
+ body.visibi-ecommerce .visibi-content #audit > div > div:last-child > div:first-child > div:nth-child(2) > div { padding:10px 4px!important; }
+}

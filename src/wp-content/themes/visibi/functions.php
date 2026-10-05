@@ -16,6 +16,7 @@ add_action( 'after_setup_theme', function () {
 } );
 add_filter( 'body_class', function ( $classes ) {
     if ( is_page( 'about' ) ) { $classes[] = 'visibi-about'; }
+    if ( is_page( 'ecommerce-development' ) ) { $classes[] = 'visibi-ecommerce'; }
     return $classes;
 } );
 add_action( 'init', function () {
@@ -77,6 +78,10 @@ add_action( 'wp_enqueue_scripts', function () {
     if ( is_page( 'peak-traffic-readiness' ) ) {
         wp_enqueue_style( 'visibi-peak', get_template_directory_uri() . '/assets/peak.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/peak.css' ) );
         wp_enqueue_script( 'visibi-peak-interactions', get_template_directory_uri() . '/assets/peak-interactions.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/peak-interactions.js' ), true );
+    }
+    if ( is_page( 'ecommerce-development' ) ) {
+        wp_enqueue_style( 'visibi-ecommerce', get_template_directory_uri() . '/assets/ecommerce.css', array( 'visibi-style' ), filemtime( __DIR__ . '/assets/ecommerce.css' ) );
+        wp_enqueue_script( 'visibi-ecommerce', get_template_directory_uri() . '/assets/ecommerce.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/ecommerce.js' ), true );
     }
     if ( is_page( 'about' ) ) {
         wp_enqueue_script( 'visibi-about-interactions', get_template_directory_uri() . '/assets/about-interactions.js', array( 'visibi-site' ), filemtime( __DIR__ . '/assets/about-interactions.js' ), true );
