@@ -8,6 +8,21 @@ Requires at least: 6.5
 Requires PHP: 8.1
 Text Domain: visibi
 */
+/* Hide individual team photo areas across imported page layouts, keeping the group photo. */
+.visibi-content :is(
+  img[src*="/assets/team-originals/"],
+  img[src*="/assets/team-webp/"]:not([src*="/team-group-"]),
+  img[src*="/assets/team/"]:not([src*="/team-group-"]),
+  [data-visibi-slot^="team-"]:not([data-visibi-slot^="team-group"])
+),
+.visibi-content :is(div, figure, picture):has(> :is(
+  img[src*="/assets/team-originals/"],
+  img[src*="/assets/team-webp/"]:not([src*="/team-group-"]),
+  img[src*="/assets/team/"]:not([src*="/team-group-"]),
+  [data-visibi-slot^="team-"]:not([data-visibi-slot^="team-group"])
+)) {
+  display: none !important;
+}
 :root{--ink:#0b1530;--navy:#070e22;--blue:#1d4ed8;--muted:#5a6680;--line:#e3e8f2;--tint:#f4f6fb}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
